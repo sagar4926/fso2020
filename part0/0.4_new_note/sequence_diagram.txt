@@ -1,0 +1,38 @@
+title 0.4 New Note
+note over browser:
+the user fills in the note field and clicks save
+end note
+note over browser:
+the browser sends the note data 
+to the server via a POST request
+end note
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+note over server:
+The server saves the note 
+and responds with a 302 status
+and a 'location' header
+end note
+server-->browser: HTTP 302, Header <location: /notes>
+note over browser:
+The browser looks at the 'location' header
+and redirects to /notes page
+end note
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+server-->browser: HTML-code
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+server-->browser: main.js
+
+note over browser:
+the browser executes the javascript
+and fetches the json data 
+end note
+
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+
+note over browser:
+the browser displays the 
+notes in the response callback
+end note
