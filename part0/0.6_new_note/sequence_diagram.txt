@@ -1,0 +1,29 @@
+title 0.6 New note
+
+note over browser:
+the user fills in the note field and 
+clicks save which submits the form
+end note
+
+note over browser:
+the js handles the form submit 
+and prevents default submit behavior
+end note
+
+note over browser
+the note is added to the DOM as a list item
+end note
+
+note over browser
+an AJAX POST request is made to the
+server with the note in the body as JSON
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over server:
+The server saves the note 
+and responds with a 201 status
+end note
+
+server-->browser: HTTP 201
