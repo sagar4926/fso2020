@@ -26,3 +26,4 @@ Full Stack Open 2020 course @ https://fullstackopen.com
 | Part 2a | 2.2: Course contents step7   | Done |
 | Part 2a | 2.3*: Course contents step8   | Done |
 | Part 2a | 2.4: Course contents step9   | Done |
+| Part 2a | 2.5: separate module   | Done |
