@@ -17,3 +17,4 @@ Full Stack Open 2020 course @ https://fullstackopen.com
 | Part 1d | 1.7 Unicafe Step 2      | Done |
 | Part 1d | 1.8 Unicafe Step 3      | Done |
 | Part 1d | 1.9: Unicafe Step4      | Done |
+| Part 1d | 1.10: Unicafe Step5     | Done |
