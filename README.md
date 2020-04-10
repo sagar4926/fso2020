@@ -28,3 +28,4 @@ Full Stack Open 2020 course @ https://fullstackopen.com
 | Part 2a | 2.4: Course contents step9   | Done |
 | Part 2a | 2.5: separate module   | Done |
 | Part 2b | 2.6: The Phonebook Step1   | Done |
+| Part 2b | 2.7: The Phonebook Step2   | Done |
