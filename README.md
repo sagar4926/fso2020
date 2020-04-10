@@ -8,3 +8,4 @@ Full Stack Open 2020 course @ https://fullstackopen.com
 | Part 0b | 0.4 New note        | Done    |
 | Part 0b | 0.5 Single page app | Done    |
 | Part 0b | 0.6 New Note        | Done    |
+| Part 1a | 1.1 Course Info Step 1      | Done   |
