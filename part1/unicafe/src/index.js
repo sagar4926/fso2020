@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-const App = () => {
-  // save clicks of each button to own state
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-
+const Statistics = ({ good, neutral, bad }) => {
   const getTotal = () => good + bad + neutral;
 
   const getAverage = () => {
@@ -18,6 +13,21 @@ const App = () => {
     const total = getTotal();
     return total > 0 ? (good * 100) / total : 0;
   };
+  
+  return (
+    <>
+      <p>all {getTotal()}</p>
+      <p>average {getAverage()}</p>
+      <p>positive {getPositivePercentage()} %</p>{" "}
+    </>
+  );
+};
+
+const App = () => {
+  // save clicks of each button to own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
   return (
     <div>
@@ -29,9 +39,7 @@ const App = () => {
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
-      <p>all {getTotal()}</p>
-      <p>average {getAverage()}</p>
-      <p>positive {getPositivePercentage()} %</p>
+      <Statistics good={good} neutral={neutral} bad={bad}></Statistics>
     </div>
   );
 };
