@@ -31,3 +31,4 @@ Full Stack Open 2020 course @ https://fullstackopen.com
 | Part 2b | 2.7: The Phonebook Step2   | Done |
 | Part 2b | 2.8: The Phonebook Step3   | Done |
 | Part 2b | 2.9*: The Phonebook Step4   | Done |
+| Part 2b | 2.10: The Phonebook Step5   | Done |
