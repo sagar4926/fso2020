@@ -21,7 +21,15 @@ const App = () => {
     const existing = persons.filter((person) => person.name === created.name);
 
     if (existing.length > 0) {
-      alert(`${created.name} is already added to the phonebook`);
+      const shouldUpdate = window.confirm(
+        `${created.name} is already added to the phonebook. do you want to replace the phone number?`
+      );
+      if (shouldUpdate) {
+        const payload = { ...existing[0], number: created.number };
+        api__persons.update(payload).then((data) => {
+          setPersons(persons.map((p) => (p.id === payload.id ? payload : p)));
+        });
+      }
       return;
     }
 

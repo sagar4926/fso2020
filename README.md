@@ -39,3 +39,4 @@ Full Stack Open 2020 course @ https://fullstackopen.com
 | Part 2d | 2.15: Phonebook step7    | Done |
 | Part 2d | 2.16: Phonebook step8    | Done |
 | Part 2d | 2.17: Phonebook step9    | Done |
+| Part 2d | 2.18*: Phonebook step10    | Done |
