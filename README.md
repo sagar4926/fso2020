@@ -34,3 +34,4 @@ Full Stack Open 2020 course @ https://fullstackopen.com
 | Part 2b | 2.10: The Phonebook Step5   | Done |
 | Part 2c | 2.11: The Phonebook Step6   | Done |
 | Part 2c | 2.12* Data for countries, step1   | Done |
+| Part 2c | 2.13*: Data for countries, step2   | Done |
