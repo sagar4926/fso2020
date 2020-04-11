@@ -11,4 +11,8 @@ const create = (payload) => {
   return axios.post(PERSONS_URL, payload).then((res) => res.data);
 };
 
-export default { getAll, create };
+const remove = (id) => {
+  return axios.delete(`${PERSONS_URL}/${id}`);
+};
+
+export default { getAll, create, delete: remove };

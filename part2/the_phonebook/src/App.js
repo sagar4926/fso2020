@@ -31,6 +31,15 @@ const App = () => {
     });
   };
 
+  const onRemove = (person) => {
+    const shouldDelete = window.confirm(`Should ${person.name} be deleted?`);
+    if (shouldDelete) {
+      api__persons.delete(person.id).then((res) => {
+        setPersons(persons.filter((p) => p.id !== person.id));
+      });
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -40,7 +49,7 @@ const App = () => {
         onPersonCreated={onPersonCreated}
       ></PersonForm>
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter}></Persons>
+      <Persons persons={persons} filter={filter} onRemove={onRemove}></Persons>
     </div>
   );
 };
