@@ -9,7 +9,7 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newPerson, setNewPerson] = useState({ name: "", number: "" });
   const [filter, setFilter] = useState("");
-  const [notificationMessage, setNotificationMessage] = useState(undefined);
+  const [notification, setNotification] = useState(undefined);
 
   useEffect(() => {
     api__persons.getAll().then((data) => setPersons(data));
@@ -19,9 +19,16 @@ const App = () => {
     setFilter(event.target.value);
   };
 
+  const _showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(undefined), 5000);
+  };
+  const showErrorNotification = (message) => {
+    _showNotification(message, "error");
+  };
+
   const showSuccessNotification = (message) => {
-    setNotificationMessage(message);
-    setTimeout(() => setNotificationMessage(undefined), 5000);
+    _showNotification(message, "success");
   };
 
   const onPersonCreated = (created) => {
@@ -33,10 +40,24 @@ const App = () => {
       );
       if (shouldUpdate) {
         const payload = { ...existing[0], number: created.number };
-        api__persons.update(payload).then((data) => {
-          setPersons(persons.map((p) => (p.id === payload.id ? payload : p)));
-          showSuccessNotification(`${payload.name}'s phone number updated.`);
-        });
+        api__persons
+          .update(payload)
+          .then((data) => {
+            setPersons(persons.map((p) => (p.id === payload.id ? payload : p)));
+            showSuccessNotification(`${payload.name}'s phone number updated.`);
+          })
+          .catch((error) => {
+            if (error.response.status === 404) {
+              showErrorNotification(
+                `Looks like ${payload.name} was deleted elsewhere!`
+              );
+              removePersonFromState(payload);
+            } else {
+              showErrorNotification(
+                `An error occured while updating ${payload.name}`
+              );
+            }
+          });
       }
       return;
     }
@@ -48,13 +69,31 @@ const App = () => {
     });
   };
 
+  const removePersonFromState = (person) => {
+    setPersons(persons.filter((p) => p.id !== person.id));
+  };
+
   const onRemove = (person) => {
     const shouldDelete = window.confirm(`Should ${person.name} be deleted?`);
     if (shouldDelete) {
-      api__persons.delete(person.id).then((res) => {
-        setPersons(persons.filter((p) => p.id !== person.id));
-        showSuccessNotification(`${person.name} deleted.`);
-      });
+      api__persons
+        .delete(person.id)
+        .then((res) => {
+          removePersonFromState(person);
+          showSuccessNotification(`${person.name} deleted.`);
+        })
+        .catch((error) => {
+          if (error.response.status === 404) {
+            showErrorNotification(
+              `Looks like ${person.name} was deleted elsewhere!`
+            );
+            removePersonFromState(person);
+          } else {
+            showErrorNotification(
+              `An error occured while deleting ${person.name}`
+            );
+          }
+        });
     }
   };
 
@@ -66,7 +105,7 @@ const App = () => {
         person={newPerson}
         onPersonCreated={onPersonCreated}
       ></PersonForm>
-      <Notification message={notificationMessage}></Notification>
+      <Notification notification={notification}></Notification>
       <h2>Numbers</h2>
       <Persons persons={persons} filter={filter} onRemove={onRemove}></Persons>
     </div>
