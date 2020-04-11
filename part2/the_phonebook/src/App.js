@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Filter from "./Filter";
 import Persons from "./Persons";
 import PersonForm from "./PersonForm";
+import api__persons from "./apis/api__persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,9 +10,7 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((res) => {
-      setPersons(res.data);
-    });
+    api__persons.getAll().then((data) => setPersons(data));
   }, []);
 
   const filterChanged = (event) => {
@@ -27,10 +25,10 @@ const App = () => {
       return;
     }
 
-    axios.post(`http://localhost:3001/persons`, created).then(res => {
-      setPersons(persons.concat(res.data));
+    api__persons.create(created).then((data) => {
+      setPersons(persons.concat(data));
       setNewPerson({ name: "", number: "" });
-    });   
+    });
   };
 
   return (
