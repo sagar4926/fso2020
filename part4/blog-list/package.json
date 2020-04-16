@@ -13,10 +13,12 @@
     "mongoose": "^5.9.9"
   },
   "devDependencies": {
+    "jest": "^25.3.0",
     "nodemon": "^2.0.3"
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "jest --verbose"
   }
 }
