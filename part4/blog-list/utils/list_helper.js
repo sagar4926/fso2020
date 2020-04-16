@@ -9,7 +9,7 @@ const totalLikes = (blogs) => {
 };
 
 const favouriteBlog = (blogs) => {
-  if (!blogs || blogs.length == 0) {
+  if (!blogs || blogs.length === 0) {
     return undefined;
   }
   let mostLiked = blogs[0];
@@ -22,7 +22,7 @@ const favouriteBlog = (blogs) => {
 };
 
 const mostBlogs = (blogs) => {
-  if (!blogs || blogs.length == 0) {
+  if (!blogs || blogs.length === 0) {
     return undefined;
   }
 
@@ -33,9 +33,24 @@ const mostBlogs = (blogs) => {
   };
 };
 
+const mostLikes = (blogs) => {
+  if (!blogs || blogs.length === 0) {
+    return undefined;
+  }
+  const res = _(blogs)
+    .groupBy("author")
+    .map((value, key) => ({
+      author: key,
+      likes: _.sumBy(value, "likes"),
+    }))
+    .maxBy("likes");
+  return res;
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favouriteBlog,
   mostBlogs,
+  mostLikes,
 };
