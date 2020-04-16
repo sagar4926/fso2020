@@ -105,7 +105,29 @@ describe("favourite-blog", () => {
   });
 
   test("when list has many favourite blogs, it should return the first encountered", () => {
-    const result = listHelper.favouriteBlog(listWithOneBlog.concat(listWithManyBlogs));
+    const result = listHelper.favouriteBlog(
+      listWithOneBlog.concat(listWithManyBlogs)
+    );
     expect(result).toEqual(listWithOneBlog[0]);
+  });
+});
+
+describe("most-blogs", () => {
+  test("when list no blogs, it should return undefined", () => {
+    const result = listHelper.mostBlogs([]);
+    expect(result).toEqual(undefined);
+  });
+
+  test("when list one blogs, it should return the author", () => {
+    const result = listHelper.mostBlogs(listWithOneBlog);
+    expect(result).toEqual({
+      author: listWithOneBlog[0].author,
+      blogs: 1,
+    });
+  });
+
+  test("when list many blogs, it should return author with most blogs", () => {
+    const result = listHelper.mostBlogs(listWithManyBlogs);
+    expect(result).toEqual({"author": "Robert C. Martin", "blogs": 3});
   });
 });
