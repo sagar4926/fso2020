@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
-const supertest = require("supertest");
-const app = require("../app");
 const helper = require("./blogs__test_helper");
 
 const Blog = require("../models/blogs");
 
-const api = supertest(app);
+const api = require("./test_helper").api;
 
 describe("blogs-controller-get-all", () => {
   test("get all returns json", async () => {

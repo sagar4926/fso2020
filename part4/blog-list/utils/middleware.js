@@ -7,6 +7,9 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === "ValidationError") {
     return response.status(400).json(error);
   }
+  if (error.message === "ValidationError") {
+    return response.status(400).json(error);
+  }
   if (error.name === "CastError") {
     return response
       .status(400)
