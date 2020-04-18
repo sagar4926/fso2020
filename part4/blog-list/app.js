@@ -13,6 +13,7 @@ mongoose
   .connect(config.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     logger.info("Connected to db");

@@ -93,6 +93,51 @@ describe("blogs-controller-delete", () => {
   });
 });
 
+describe("blogs-controller-put", () => {
+  test("put returns 200 on success", async () => {
+    await api
+      .put(`/api/blogs/${helper.blogs[0]._id}`)
+      .send({ likes: 25 })
+      .expect(200);
+  });
+
+  test("put returns body with updated data", async () => {
+    const blog_to_update = helper.blogs[0];
+    const result = await api
+      .put(`/api/blogs/${blog_to_update._id}`)
+      .send({ likes: 25 });
+    const compare = { ...blog_to_update, likes: 25 };
+    compare.id = compare._id;
+    delete compare._id;
+    delete compare.__v;
+    expect(result.body).toEqual(compare);
+  });
+
+  test("put returns 400 on wrong id type", async () => {
+    await api.put(`/api/blogs/243`).send({ likes: 25 }).expect(400);
+  });
+
+  test("put returns 404 on id not found", async () => {
+    await api
+      .put(`/api/blogs/6e9a802cfbcfda1829d84cc4`)
+      .send({ likes: 25 })
+      .expect(404);
+  });
+
+  test("put updates item in db", async () => {
+    const blog_to_update = helper.blogs[0];
+    const new_likes = blog_to_update.likes + 25;
+    await api
+      .put(`/api/blogs/${blog_to_update._id}`)
+      .send({ likes: new_likes });
+    const new_blogs = await api.get("/api/blogs");
+    const updated_blog = new_blogs.body.find(
+      (blog) => blog.id === blog_to_update._id
+    );
+    expect(updated_blog.likes).toBe(new_likes);
+  });
+});
+
 beforeEach(async () => {
   await Blog.deleteMany({});
   for (const blog of helper.blogs) {

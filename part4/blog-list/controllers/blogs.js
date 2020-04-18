@@ -12,9 +12,23 @@ blogsRouter.post("/", async (request, response) => {
   return response.status(201).json(result);
 });
 
+blogsRouter.put("/:id", async (request, response, next) => {
+  const blog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    {
+      likes: request.body.likes,
+    },
+    { new: true }
+  );
+  if (!blog) {
+    return next(new Error("Not Found"));
+  }
+  return response.json(blog);
+});
+
 blogsRouter.delete("/:id", async (request, response) => {
   await Blog.findByIdAndDelete(request.params.id);
-  response.status(204).end();
+  return response.status(204).end();
 });
 
 module.exports = blogsRouter;

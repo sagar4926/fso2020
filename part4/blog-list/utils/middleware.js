@@ -1,6 +1,9 @@
 const logger = require("./logger");
 
 const errorHandler = (error, request, response, next) => {
+  if (error.message === "Not Found") {
+    return response.status(404).json({ error: "resource not found" });
+  }
   if (error.name === "ValidationError") {
     return response.status(400).json(error);
   }
