@@ -3,6 +3,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const Blog = require("../models/blogs");
 const User = require("../models/users");
 const config = require("../utils/config");
+const authHelper = require("../utils/auth_helper");
 
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate("user", ["username", "name"]);
@@ -10,13 +11,7 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response) => {
-  const identity = jsonwebtoken.verify(request.token, config.SECRET_KEY);
-  if (!identity.id) {
-    return response.status(401).json({
-      error: "token missing or invalid",
-    });
-  }
-  const user = await User.findById(identity.id);
+  const user = await authHelper.getLoggedInUser(request);
   if (!user) {
     return response.status(401).json({
       error: "token missing or invalid",
@@ -44,7 +39,16 @@ blogsRouter.put("/:id", async (request, response, next) => {
 });
 
 blogsRouter.delete("/:id", async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id);
+  const user = await authHelper.getLoggedInUser(request);
+  if (!user) {
+    return response.status(401).json({
+      error: "token missing or invalid",
+    });
+  }
+  const found = await Blog.findOneAndDelete({
+    _id: request.params.id,
+    user: user._id,
+  });
   return response.status(204).end();
 });
 
