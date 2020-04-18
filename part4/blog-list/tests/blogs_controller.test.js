@@ -25,6 +25,11 @@ describe("blogs-controller", () => {
     const titles = response.body.map((blog) => blog.title);
     expect(titles).toContain(helper.blogs[0].title);
   });
+
+  test("get all blogs should have id", async () => {
+    const response = await api.get("/api/blogs");
+    response.body.forEach((blog) => expect(blog.id).toBeDefined());
+  });
 });
 
 beforeEach(async () => {
