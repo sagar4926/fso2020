@@ -79,7 +79,7 @@ describe("like-counter", () => {
 
   test("when list has one blog, sum should be blog.likes", () => {
     const result = listHelper.totalLikes(listWithOneBlog);
-    expect(result).toBe(5);
+    expect(result).toBe(listWithOneBlog[0].likes);
   });
 
   test("when list has mang blogs, total blogs should be sum of likes of all blogs", () => {
