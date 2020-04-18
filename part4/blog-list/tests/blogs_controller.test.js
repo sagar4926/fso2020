@@ -4,7 +4,8 @@ const helper = require("./blogs__test_helper");
 const Blog = require("../models/blogs");
 
 const api = require("./test_helper").api;
-
+const User = require("../models/users");
+let user = undefined;
 describe("blogs-controller-get-all", () => {
   test("get all returns json", async () => {
     await api
@@ -34,18 +35,35 @@ describe("blogs-controller-post", () => {
   test("create returns json", async () => {
     await api
       .post("/api/blogs")
+      .set("Authorization", `Bearer ${user.token}`)
       .send(helper.new_blog)
       .expect(201)
       .expect("Content-Type", /application\/json/);
   });
 
   test("create returns blog with id", async () => {
-    const result = await api.post("/api/blogs").send(helper.new_blog);
+    const result = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${user.token}`)
+      .send(helper.new_blog);
     expect(result.body.id).toBeDefined();
   });
 
+  test("create returns blog with user assigned", async () => {
+    const user_id = user.id;
+    const token = user.token;
+    const result = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${token}`)
+      .send(helper.new_blog);
+    expect(result.body.user).toBe(user_id);
+  });
+
   test("create returns the blog data correctly", async () => {
-    const result = await api.post("/api/blogs").send(helper.new_blog);
+    const result = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${user.token}`)
+      .send(helper.new_blog);
     expect({
       title: result.body.title,
       author: result.body.author,
@@ -55,19 +73,26 @@ describe("blogs-controller-post", () => {
   });
 
   test("create increases total blog count", async () => {
-    await api.post("/api/blogs").send(helper.new_blog);
+    await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${user.token}`)
+      .send(helper.new_blog);
     const new_blogs = await api.get("/api/blogs");
     expect(new_blogs.body).toHaveLength(helper.blogs.length + 1);
   });
 
   test("create blog defaults likes to 0", async () => {
-    const result = await api.post("/api/blogs").send(helper.blog_without_likes);
+    const result = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${user.token}`)
+      .send(helper.blog_without_likes);
     expect(result.body.likes).toBe(0);
   });
 
   test("create blog without author/url returns 400", async () => {
     await api
       .post("/api/blogs")
+      .set("Authorization", `Bearer ${user.token}`)
       .send(helper.blog_without_author_or_url)
       .expect(400);
   });
@@ -75,16 +100,39 @@ describe("blogs-controller-post", () => {
 
 describe("blogs-controller-delete", () => {
   test("delete returns 204 on success", async () => {
-    await api.delete(`/api/blogs/${helper.blogs[0]._id}`).expect(204);
+    await api
+      .delete(`/api/blogs/${helper.blogs[0]._id}`)
+      .set("Authorization", `Bearer ${user.token}`)
+      .expect(204);
   });
 
   test("delete returns 400 on wrong id type", async () => {
-    await api.delete(`/api/blogs/243`).expect(400);
+    await api
+      .delete(`/api/blogs/243`)
+      .set("Authorization", `Bearer ${user.token}`)
+      .expect(400);
   });
 
-  test("delete removes item from db", async () => {
+  test("delete on unowned items doesn't remove item from db", async () => {
     const id = helper.blogs[0]._id;
-    await api.delete(`/api/blogs/${id}`);
+    await api
+      .delete(`/api/blogs/${id}`)
+      .set("Authorization", `Bearer ${user.token}`);
+    const new_blogs = await api.get("/api/blogs");
+    const ids = new_blogs.body.map((blog) => blog.id);
+    expect(ids).toContain(id);
+  });
+
+  test("delete on owned items removes item from db", async () => {
+    const token = user.token;
+    const blog = await api
+      .post("/api/blogs")
+      .set("Authorization", `Bearer ${token}`)
+      .send(helper.new_blog);
+    const id = blog.body.id;
+    await api
+      .delete(`/api/blogs/${id}`)
+      .set("Authorization", `Bearer ${token}`);
     const new_blogs = await api.get("/api/blogs");
     const ids = new_blogs.body.map((blog) => blog.id);
     expect(ids).not.toContain(id);
@@ -138,6 +186,10 @@ describe("blogs-controller-put", () => {
 
 beforeEach(async () => {
   await Blog.deleteMany({});
+  await User.deleteMany({});
+  await api.post("/api/users").send(helper.user);
+  const res = (await api.post("/api/login").send(helper.user)).body;
+  user = res;
   for (const blog of helper.blogs) {
     const model = new Blog(blog);
     await model.save();
