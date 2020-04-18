@@ -1,3 +1,10 @@
+const new_blog = {
+  title: "New React patterns",
+  author: "Michael Chan",
+  url: "https://reactpatterns.com/",
+  likes: 0,
+};
+
 const blogs = [
   {
     _id: "5a422a851b54a676234d17f7",
@@ -54,4 +61,5 @@ const blogs = [
 
 module.exports = {
   blogs,
+  new_blog,
 };
