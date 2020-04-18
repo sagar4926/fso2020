@@ -5,9 +5,13 @@ const config = require("../utils/config");
 
 const loginRouter = express.Router();
 
-loginRouter.get("/", async (request, response) => {
-  const result = await User.find({});
-  return response.json(result);
+loginRouter.get("/", async (request, response, next) => {
+  try {
+    const result = await User.find({}).populate("blogs");
+    return response.json(result);
+  } catch (err) {
+    next(err);
+  }
 });
 
 loginRouter.post("/", async (request, response, next) => {
