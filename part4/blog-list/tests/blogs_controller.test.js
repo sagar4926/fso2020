@@ -75,6 +75,24 @@ describe("blogs-controller-post", () => {
   });
 });
 
+describe("blogs-controller-delete", () => {
+  test("delete returns 204 on success", async () => {
+    await api.delete(`/api/blogs/${helper.blogs[0]._id}`).expect(204);
+  });
+
+  test("delete returns 400 on wrong id type", async () => {
+    await api.delete(`/api/blogs/243`).expect(400);
+  });
+
+  test("delete removes item from db", async () => {
+    const id = helper.blogs[0]._id;
+    await api.delete(`/api/blogs/${id}`);
+    const new_blogs = await api.get("/api/blogs");
+    const ids = new_blogs.body.map((blog) => blog.id);
+    expect(ids).not.toContain(id);
+  });
+});
+
 beforeEach(async () => {
   await Blog.deleteMany({});
   for (const blog of helper.blogs) {
