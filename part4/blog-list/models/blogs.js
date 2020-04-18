@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jsonHelper = require("../utils/json_helper");
 
 const blogSchema = mongoose.Schema({
   title: { type: String, required: true },
@@ -7,10 +8,6 @@ const blogSchema = mongoose.Schema({
   likes: { type: Number, default: 0 },
 });
 blogSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
+  transform: jsonHelper.mongooseJsonTransformer,
 });
 module.exports = mongoose.model("Blog", blogSchema);
