@@ -1,4 +1,6 @@
 const express = require("express");
+const middleware = require("./utils/middleware");
+
 const app = express();
 require("express-async-errors");
 const cors = require("cors");
@@ -23,5 +25,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/blogs", blogsRoutes);
+app.use(middleware.errorHandler);
 
 module.exports = app;

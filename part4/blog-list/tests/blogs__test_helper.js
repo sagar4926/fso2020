@@ -11,6 +11,11 @@ const blog_without_likes = {
   url: "https://reactpatterns.com/"
 };
 
+const blog_without_author_or_url = {
+  author: "Michael Chan",
+  likes: 5
+};
+
 const blogs = [
   {
     _id: "5a422a851b54a676234d17f7",
@@ -68,5 +73,6 @@ const blogs = [
 module.exports = {
   blogs,
   new_blog,
-  blog_without_likes
+  blog_without_likes,
+  blog_without_author_or_url
 };
