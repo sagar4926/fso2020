@@ -61,6 +61,11 @@ describe("blogs-controller-post", () => {
     const new_blogs = await api.get("/api/blogs");
     expect(new_blogs.body).toHaveLength(helper.blogs.length + 1);
   });
+
+  test("create defaults likes to 0", async () => {
+    const result = await api.post("/api/blogs").send(helper.blog_without_likes);
+    expect(result.body.likes).toBe(0);
+  });
 });
 
 beforeEach(async () => {
