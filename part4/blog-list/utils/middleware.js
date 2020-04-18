@@ -15,6 +15,9 @@ const errorHandler = (error, request, response, next) => {
       .status(400)
       .json({ error: "Bad Request, the ID is malformatted" });
   }
+  if (error.name === "JsonWebTokenError") {
+    return response.status(401).json(error);
+  }
   logger.error("Error: ", error);
   next(error);
 };
