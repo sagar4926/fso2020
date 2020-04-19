@@ -7,8 +7,6 @@ const LoginForm = ({ onLogin }) => {
 
   const login = (event) => {
     event.preventDefault();
-    console.log("Try to login with : ", username, " : ", password);
-    console.log(loginApi);
     loginApi.login(username, password).then(onLogin);
   };
 
