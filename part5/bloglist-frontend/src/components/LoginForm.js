@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import loginApi from "../services/login";
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin, onError }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const login = (event) => {
     event.preventDefault();
-    loginApi.login(username, password).then(onLogin);
+    loginApi
+      .login(username, password)
+      .then(onLogin)
+      .catch((err) =>
+        onError("Login failed!. Username or password is incorrect")
+      );
   };
 
   return (

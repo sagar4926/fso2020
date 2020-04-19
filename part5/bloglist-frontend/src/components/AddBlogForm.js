@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import blogsApi from "../services/blogs";
 
-const AddBlogForm = ({ onBlogAdded }) => {
+const AddBlogForm = ({ onBlogAdded, onError }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -13,10 +13,15 @@ const AddBlogForm = ({ onBlogAdded }) => {
   };
   const createBlog = (event) => {
     event.preventDefault();
-    blogsApi.create({ title, author, url }).then((data) => {
-      clearForm();
-      onBlogAdded(data);
-    });
+    blogsApi
+      .create({ title, author, url })
+      .then((data) => {
+        clearForm();
+        onBlogAdded(data);
+      })
+      .catch((err) => {
+        onError("Failed to create blog. title and url is mandatory");
+      });
   };
 
   return (
