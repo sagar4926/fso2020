@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import BlogsList from "./components/BlogsList";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
@@ -13,7 +13,8 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(undefined);
   const [notification, setNotification] = useState(undefined);
-  const blogFormRef = React.createRef();
+  // Using this over React.createRef persists the ref across state changes and re-renders
+  const blogFormRef = useRef(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -40,9 +41,9 @@ const App = () => {
       .create(data)
       .then((blog) => {
         // If you call this after setBlogs, the ref is lost
-        blogFormRef.current.toggleVisiblity();
         setBlogs(blogs.concat(blog));
         showSuccessNotification(`Blog added ${blog.title}`);
+        blogFormRef.current.toggleVisiblity();
       })
       .catch((err) => {
         showErrorNotification(
