@@ -24,4 +24,12 @@ const update = (id, payload) => {
     .then((response) => response.data);
 };
 
-export default { getAll, create, update };
+const _delete = (id) => {
+  const user = storageService.getUser();
+  return axios.delete(`${baseUrl}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  });
+};
+export default { getAll, create, update, delete: _delete };

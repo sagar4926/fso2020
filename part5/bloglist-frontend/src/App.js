@@ -67,6 +67,19 @@ const App = () => {
       });
   };
 
+  const blogDeleted = (blog) => {
+    const title = blog.title;
+    blogsApi
+      .delete(blog.id)
+      .then(() => {
+        setBlogs(blogs.filter((b) => b.id !== blog.id));
+        showSuccessNotification(`Blog deleted: ${title}`);
+      })
+      .catch((err) => {
+        showErrorNotification("Failed to delete blog.");
+      });
+  };
+
   return (
     <>
       <Notification notification={notification}></Notification>
@@ -95,7 +108,11 @@ const App = () => {
           <Togglable buttonText="Add Blog" ref={blogFormRef}>
             <AddBlogForm onBlogAdded={blogAdded}></AddBlogForm>
           </Togglable>
-          <BlogsList blogs={blogs} onLike={blogLiked}></BlogsList>
+          <BlogsList
+            blogs={blogs}
+            onLike={blogLiked}
+            onDelete={blogDeleted}
+          ></BlogsList>
         </>
       )}
     </>
