@@ -1,6 +1,7 @@
 import React from "react";
 import Togglable from "./Togglable";
 import storageService from "../services/storage";
+import PropTypes from "prop-types";
 
 const Blog = ({ blog, onLike, onDelete }) => {
   const user = storageService.getUser();
@@ -39,6 +40,12 @@ const Blog = ({ blog, onLike, onDelete }) => {
       </Togglable>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  onLike: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default Blog;
