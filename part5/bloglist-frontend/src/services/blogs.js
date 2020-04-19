@@ -18,4 +18,10 @@ const create = (payload) => {
     .then((response) => response.data);
 };
 
-export default { getAll, create };
+const update = (id, payload) => {
+  return axios
+    .put(`${baseUrl}/${id}`, payload)
+    .then((response) => response.data);
+};
+
+export default { getAll, create, update };

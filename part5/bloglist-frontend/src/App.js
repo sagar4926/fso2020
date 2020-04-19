@@ -52,6 +52,21 @@ const App = () => {
       });
   };
 
+  const blogLiked = (blog) => {
+    blogsApi
+      .update(blog.id, { likes: blog.likes + 1 })
+      .then((updatedBlog) => {
+        const updatedBlogs = blogs.map((b) =>
+          b.id === updatedBlog.id ? updatedBlog : b
+        );
+        setBlogs(updatedBlogs);
+        showSuccessNotification(`Blog liked: ${blog.title}`);
+      })
+      .catch((err) => {
+        showErrorNotification("Failed to like blog.");
+      });
+  };
+
   return (
     <>
       <Notification notification={notification}></Notification>
@@ -80,7 +95,7 @@ const App = () => {
           <Togglable buttonText="Add Blog" ref={blogFormRef}>
             <AddBlogForm onBlogAdded={blogAdded}></AddBlogForm>
           </Togglable>
-          <BlogsList blogs={blogs}></BlogsList>
+          <BlogsList blogs={blogs} onLike={blogLiked}></BlogsList>
         </>
       )}
     </>
