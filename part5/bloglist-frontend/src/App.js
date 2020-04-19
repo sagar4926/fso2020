@@ -3,6 +3,7 @@ import Blogs from "./components/Blogs";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
 import User from "./components/User";
+import storageService from "./services/storage";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,17 +13,30 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  useEffect(() => {
+    setUser(storageService.getUser());
+  }, []);
+
   return (
     <>
       {!user && (
         <LoginForm
           onLogin={(user) => {
-            console.log("User Logged in ", user);
+            storageService.storeUser(user);
             setUser(user);
           }}
         ></LoginForm>
       )}
-      {user && [<User user={user}></User>, <Blogs blogs={blogs}></Blogs>]}
+      {user && <>
+        <User
+          user={user}
+          onLogout={() => {
+            storageService.removeUser();
+            setUser(undefined);
+          }}
+        ></User>
+        <Blogs blogs={blogs}></Blogs>,
+      </>}
     </>
   );
 };
