@@ -6,11 +6,14 @@ import User from "./components/User";
 import storageService from "./services/storage";
 import AddBlogForm from "./components/AddBlogForm";
 import Notification from "./components/notification/Notification";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(undefined);
   const [notification, setNotification] = useState(undefined);
+  const [isBlogFormVisible, setIsBlogFormVisible] = useState(false);
+  const blogFormRef = React.createRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -30,6 +33,16 @@ const App = () => {
 
   const showSuccessNotification = (message) => {
     _showNotification(message, "success");
+  };
+
+  const hideBlogForm = () => {
+    // Something wrong, this is always null
+    if (blogFormRef.current !== null) {
+      blogFormRef.current.toggleVisiblity();
+    }
+    // Hack, need to switch back to make a state change happen. Either this or need to listen to visible from child component
+    setIsBlogFormVisible(true);
+    setIsBlogFormVisible(false);
   };
 
   return (
@@ -57,18 +70,25 @@ const App = () => {
               showSuccessNotification(`Logged out!`);
             }}
           ></User>
-          <AddBlogForm
-            onBlogAdded={(blog) => {
-              setBlogs(blogs.concat(blog));
-              showSuccessNotification(`Blog added ${blog.title}`);
-            }}
-            onError={(error) => {
-              showErrorNotification(error);
-            }}
-          ></AddBlogForm>
+          <Togglable
+            buttonText="Add Blog"
+            ref={blogFormRef}
+            visibility={isBlogFormVisible}
+          >
+            <AddBlogForm
+              onBlogAdded={(blog) => {
+                setBlogs(blogs.concat(blog));
+                showSuccessNotification(`Blog added ${blog.title}`);
+                hideBlogForm();
+              }}
+              onError={(error) => {
+                showErrorNotification(error);
+              }}
+            ></AddBlogForm>
+          </Togglable>
           <BlogsList blogs={blogs}></BlogsList>
         </>
-      )}      
+      )}
     </>
   );
 };

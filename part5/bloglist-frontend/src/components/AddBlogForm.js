@@ -20,6 +20,7 @@ const AddBlogForm = ({ onBlogAdded, onError }) => {
         onBlogAdded(data);
       })
       .catch((err) => {
+        console.log("Error : ", err);
         onError("Failed to create blog. title and url is mandatory");
       });
   };
