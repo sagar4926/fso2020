@@ -10,7 +10,7 @@ const LoginForm = ({ onLogin, onError }) => {
     loginApi
       .login(username, password)
       .then(onLogin)
-      .catch((err) =>
+      .catch(() =>
         onError("Login failed!. Username or password is incorrect")
       );
   };

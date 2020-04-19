@@ -45,7 +45,7 @@ const App = () => {
         showSuccessNotification(`Blog added ${blog.title}`);
         blogFormRef.current.toggleVisiblity();
       })
-      .catch((err) => {
+      .catch(() => {
         showErrorNotification(
           "Failed to create blog. title and url is mandatory"
         );
@@ -62,7 +62,7 @@ const App = () => {
         setBlogs(updatedBlogs);
         showSuccessNotification(`Blog liked: ${blog.title}`);
       })
-      .catch((err) => {
+      .catch(() => {
         showErrorNotification("Failed to like blog.");
       });
   };
@@ -75,7 +75,7 @@ const App = () => {
         setBlogs(blogs.filter((b) => b.id !== blog.id));
         showSuccessNotification(`Blog deleted: ${title}`);
       })
-      .catch((err) => {
+      .catch(() => {
         showErrorNotification("Failed to delete blog.");
       });
   };
@@ -88,7 +88,7 @@ const App = () => {
           onLogin={(user) => {
             storageService.storeUser(user);
             setUser(user);
-            showSuccessNotification(`Logged in!`);
+            showSuccessNotification("Logged in!");
           }}
           onError={(error) => {
             showErrorNotification(error);
@@ -102,7 +102,7 @@ const App = () => {
             onLogout={() => {
               storageService.removeUser();
               setUser(undefined);
-              showSuccessNotification(`Logged out!`);
+              showSuccessNotification("Logged out!");
             }}
           ></User>
           <Togglable buttonText="Add Blog" ref={blogFormRef}>

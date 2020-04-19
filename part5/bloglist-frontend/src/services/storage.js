@@ -5,7 +5,7 @@ const storeUser = (user) => {
 };
 
 const getUser = () => {
-  const user = window.localStorage.getItem(KEY)
+  const user = window.localStorage.getItem(KEY);
   return user ? JSON.parse(user) : undefined;
 };
 
