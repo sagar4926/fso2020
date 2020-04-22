@@ -1,6 +1,6 @@
 import React from "react";
-import Togglable from "./Togglable";
-import storageService from "../services/storage";
+import Togglable from "../Togglable";
+import storageService from "../../services/storage";
 import PropTypes from "prop-types";
 
 const Blog = ({ blog, onLike, onDelete }) => {

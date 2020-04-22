@@ -1,5 +1,6 @@
 import React from "react";
-import Blog from "./Blog";
+import Blog from "./Blog/Blog";
+
 
 const BlogsList = ({ blogs, onLike, onDelete }) => {
   blogs.sort((l, r) => r.likes - l.likes);
