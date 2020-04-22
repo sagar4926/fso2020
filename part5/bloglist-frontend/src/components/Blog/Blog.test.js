@@ -38,4 +38,16 @@ describe("<Blog />", () => {
     expect(component.container).toHaveTextContent(blog.likes);
     expect(component.container).toHaveTextContent(blog.url);
   });
+
+  test("blog calls onLike event handler the number of times its clicked", () => {
+    const button = component.container.querySelector("button");
+    fireEvent.click(button);
+
+    const likeButton = component.getByText("Like");
+
+    fireEvent.click(likeButton);
+    fireEvent.click(likeButton);
+
+    expect(onLike.mock.calls).toHaveLength(2);
+  });
 });
