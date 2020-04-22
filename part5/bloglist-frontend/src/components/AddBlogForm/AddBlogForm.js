@@ -23,6 +23,7 @@ const AddBlogForm = ({ onBlogAdded }) => {
         <label style={{ display: "block" }}>
           Title:
           <input
+            className="input-title"
             value={title}
             onChange={({ target }) => {
               setTitle(target.value);
@@ -33,6 +34,7 @@ const AddBlogForm = ({ onBlogAdded }) => {
         <label style={{ display: "block" }}>
           Author:
           <input
+            className="input-author"
             value={author}
             onChange={({ target }) => {
               setAuthor(target.value);
@@ -43,6 +45,7 @@ const AddBlogForm = ({ onBlogAdded }) => {
         <label style={{ display: "block" }}>
           Url:
           <input
+            className="input-url"
             value={url}
             onChange={({ target }) => {
               setUrl(target.value);
@@ -50,7 +53,9 @@ const AddBlogForm = ({ onBlogAdded }) => {
             placeholder="Enter url"
           ></input>
         </label>
-        <button type="submit">Create</button>
+        <button className="button-submit" type="submit">
+          Create
+        </button>
       </form>
     </>
   );

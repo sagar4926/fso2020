@@ -4,7 +4,7 @@ import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
 import User from "./components/User";
 import storageService from "./services/storage";
-import AddBlogForm from "./components/AddBlogForm";
+import AddBlogForm from "./components/AddBlogForm/AddBlogForm";
 import Notification from "./components/notification/Notification";
 import Togglable from "./components/Togglable";
 import blogsApi from "./services/blogs";
