@@ -10,9 +10,7 @@ const LoginForm = ({ onLogin, onError }) => {
     loginApi
       .login(username, password)
       .then(onLogin)
-      .catch(() =>
-        onError("Login failed!. Username or password is incorrect")
-      );
+      .catch(() => onError("Login failed!. Username or password is incorrect"));
   };
 
   return (
@@ -22,6 +20,7 @@ const LoginForm = ({ onLogin, onError }) => {
         <label style={{ display: "block" }}>
           Username:
           <input
+            id="in-username"
             value={username}
             onChange={({ target }) => {
               setUsername(target.value);
@@ -32,6 +31,7 @@ const LoginForm = ({ onLogin, onError }) => {
         <label style={{ display: "block" }}>
           Password:
           <input
+            id="in-password"
             value={password}
             onChange={({ target }) => {
               setPassword(target.value);
@@ -40,7 +40,7 @@ const LoginForm = ({ onLogin, onError }) => {
             type="password"
           ></input>
         </label>
-        <button type="submit">Login</button>
+        <button id="btn-submit" type="submit">Login</button>
       </form>
     </div>
   );
