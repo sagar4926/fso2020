@@ -91,7 +91,7 @@ describe("Blog List", function () {
           cy.contains("Logout").click();
           cy.login(user_2.username, user_2.password);
         });
-        it.only("it cannot be deleted by non owners", function () {
+        it("it cannot be deleted by non owners", function () {
           cy.get(".blog")
             .first()
             .then(($blog) => {
@@ -99,6 +99,39 @@ describe("Blog List", function () {
               cy.wrap($blog).find("#btn-blog-delete").should("not.exist");
             });
         });
+      });
+    });
+
+    describe("and a multiple blogs are present", function () {
+      beforeEach(function () {
+        cy.get("#btn-toggle").click();
+        cy.get(".input-title").type("First Blog");
+        cy.get(".input-author").type("Cypress");
+        cy.get(".input-url").type("https://www.cypress.io/");
+        cy.get(".button-submit").click();
+
+        cy.get("#btn-toggle").click();
+        cy.get(".input-title").type("Second Blog");
+        cy.get(".input-author").type("Cypress");
+        cy.get(".input-url").type("https://www.cypress.io/");
+        cy.get(".button-submit").click();
+
+        cy.get("#btn-toggle").click();
+        cy.get(".input-title").type("Third Blog");
+        cy.get(".input-author").type("Cypress");
+        cy.get(".input-url").type("https://www.cypress.io/");
+        cy.get(".button-submit").click();
+      });
+
+      it.only("shows the most liked blog first", function () {
+        cy.get(".blog")
+          .last()
+          .then(($blog) => {
+            $blog.find("#btn-toggle").click();
+            $blog.find("#btn-blog-like").click();
+            cy.wrap($blog).should("contain", "likes 1");
+            cy.get(".blog").first().should("contain", "Third Blog");
+          });
       });
     });
   });
