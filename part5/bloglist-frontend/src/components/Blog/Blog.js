@@ -8,6 +8,7 @@ const Blog = ({ blog, onLike, onDelete }) => {
 
   return (
     <div
+      className="blog"
       style={{ padding: 10, border: "solid", borderWidth: 1, marginBottom: 5 }}
     >
       {blog.title} : {blog.author}
@@ -16,6 +17,7 @@ const Blog = ({ blog, onLike, onDelete }) => {
         {blog.url} <br></br>
         likes {blog.likes}{" "}
         <button
+          id="btn-blog-like"
           onClick={() => {
             onLike(blog);
           }}

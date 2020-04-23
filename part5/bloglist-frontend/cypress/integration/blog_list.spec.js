@@ -41,7 +41,7 @@ describe("Blog List", function () {
       cy.login(user.username, user.password);
     });
 
-    it.only("a blog can be created", function () {
+    it("a blog can be created", function () {
       cy.get("#btn-toggle").click();
       cy.get(".input-title").type("A new blog");
       cy.get(".input-author").type("Cypress");
@@ -49,6 +49,26 @@ describe("Blog List", function () {
       cy.get(".button-submit").click();
       cy.get(".notification").contains("Blog added A new blog");
       cy.get("#blog-list").contains("A new blog");
+    });
+
+    describe("and a blog is present", function () {
+      beforeEach(function () {
+        cy.get("#btn-toggle").click();
+        cy.get(".input-title").type("A new blog");
+        cy.get(".input-author").type("Cypress");
+        cy.get(".input-url").type("https://www.cypress.io/");
+        cy.get(".button-submit").click();
+      });
+
+      it.only("it can be liked", function () {
+        cy.get(".blog")
+          .first()
+          .then(($blog) => {
+            $blog.find("#btn-toggle").click();
+            $blog.find("#btn-blog-like").click();
+            cy.wrap($blog).should("contain", "likes 1");
+          });
+      });
     });
   });
 });
