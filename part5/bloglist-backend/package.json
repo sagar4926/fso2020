@@ -1,0 +1,31 @@
+{
+  "name": "blog-list",
+  "version": "1.0.0",
+  "description": "Blog list app for Full Stack Open 2020",
+  "main": "index.js",
+  "repository": "https://github.com/sagar4926/fso2020",
+  "author": "Sagar B",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.9.9",
+    "mongoose-unique-validator": "^2.0.3"
+  },
+  "devDependencies": {
+    "jest": "^25.3.0",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "start": "NODE_ENV=development node index.js",
+    "start:e2e": "NODE_ENV=test node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=test jest --verbose"
+  }
+}
