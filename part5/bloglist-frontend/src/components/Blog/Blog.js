@@ -6,6 +6,9 @@ import PropTypes from "prop-types";
 const Blog = ({ blog, onLike, onDelete }) => {
   const user = storageService.getUser();
 
+  console.log("User ", user);
+  console.log("Blog ", blog);
+
   return (
     <div
       className="blog"
@@ -28,6 +31,7 @@ const Blog = ({ blog, onLike, onDelete }) => {
         {blog.user ? blog.user.name : null}
         {blog.user && blog.user.id === user.id && (
           <button
+            id="btn-blog-delete"
             onClick={() => {
               if (
                 window.confirm(`Are you sure you want to remove ${blog.title}`)

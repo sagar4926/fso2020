@@ -5,6 +5,11 @@ const user = {
   name: "Cypress",
   password: "cypress",
 };
+const user_2 = {
+  username: "cypress2",
+  name: "Cypress 2",
+  password: "cypress",
+};
 
 describe("Blog List", function () {
   beforeEach(function () {
@@ -60,7 +65,7 @@ describe("Blog List", function () {
         cy.get(".button-submit").click();
       });
 
-      it.only("it can be liked", function () {
+      it("it can be liked", function () {
         cy.get(".blog")
           .first()
           .then(($blog) => {
@@ -68,6 +73,32 @@ describe("Blog List", function () {
             $blog.find("#btn-blog-like").click();
             cy.wrap($blog).should("contain", "likes 1");
           });
+      });
+
+      it("it can be deleted by owner", function () {
+        cy.get(".blog")
+          .first()
+          .then(($blog) => {
+            $blog.find("#btn-toggle").click();
+            $blog.find("#btn-blog-delete").click();
+          });
+        cy.get(".blog").should("not.exist");
+      });
+
+      describe("user logs out and a new user logs in", function () {
+        beforeEach(function () {
+          cy.request("POST", "http://localhost:3003/api/users", user_2);
+          cy.contains("Logout").click();
+          cy.login(user_2.username, user_2.password);
+        });
+        it.only("it cannot be deleted by non owners", function () {
+          cy.get(".blog")
+            .first()
+            .then(($blog) => {
+              $blog.find("#btn-toggle").click();
+              cy.wrap($blog).find("#btn-blog-delete").should("not.exist");
+            });
+        });
       });
     });
   });
