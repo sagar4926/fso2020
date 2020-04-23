@@ -15,7 +15,7 @@ const Togglable = React.forwardRef(({ children, buttonText }, ref) => {
   return (
     <>
       {isVisible && children}
-      <button onClick={toggleVisiblity} style={{ margin: 5 }}>
+      <button id="btn-toggle" onClick={toggleVisiblity} style={{ margin: 5 }}>
         {isVisible ? "Hide" : _buttonText}
       </button>
     </>
