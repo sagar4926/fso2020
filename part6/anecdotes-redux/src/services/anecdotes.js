@@ -8,8 +8,13 @@ const getAll = () => {
   return Axios.get(ANECDOTES_ENDPOINT).then((res) => res.data);
 };
 
+const create = (payload) => {
+  return Axios.post(ANECDOTES_ENDPOINT, payload).then((res) => res.data);
+};
+
 const anecdotes_api = {
   getAll,
+  create
 };
 
 export default anecdotes_api;
