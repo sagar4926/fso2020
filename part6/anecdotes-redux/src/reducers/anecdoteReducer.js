@@ -36,10 +36,16 @@ export const actionVote = (id) => {
   };
 };
 
-export const actionCreateAnecdote = (data) => {
-  return {
-    type: ACTIONS.CREATE_ANECDOTE,
-    data,
+export const actionCreateAnecdote = (content) => {
+  return async (dispatch) => {
+    const data = await anecdotes_api.create({
+      content,
+      votes: 0,
+    });
+    dispatch({
+      type: ACTIONS.CREATE_ANECDOTE,
+      data,
+    });
   };
 };
 
