@@ -1,3 +1,5 @@
+import anecdotes_api from "../services/anecdotes";
+
 const initialState = [];
 
 export const ACTIONS = {
@@ -41,10 +43,13 @@ export const actionCreateAnecdote = (data) => {
   };
 };
 
-export const actionInitAnecdotes = (data) => {
-  return {
-    type: ACTIONS.INIT,
-    data,
+export const actionInitAnecdotes = () => {
+  return async (dispatch) => {
+    const data = await anecdotes_api.getAll();
+    dispatch({
+      type: ACTIONS.INIT,
+      data,
+    });
   };
 };
 

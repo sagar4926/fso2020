@@ -11,10 +11,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    anecdotes_api.getAll().then((res) => {
-      dispatch(actionInitAnecdotes(res));
-    });
-  }, []);
+    dispatch(actionInitAnecdotes());
+  }, [dispatch]);
 
   return (
     <div>
