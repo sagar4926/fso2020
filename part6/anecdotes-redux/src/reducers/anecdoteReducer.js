@@ -17,6 +17,20 @@ const asObject = (anecdote) => {
   };
 };
 
+export const actionVote = (id) => {
+  return {
+    type: ACTIONS.VOTE,
+    data: id,
+  };
+};
+
+export const actionCreateAnecdote = (content) => {
+  return {
+    type: ACTIONS.CREATE_ANECDOTE,
+    data: content,
+  };
+};
+
 const initialState = initial_anecdotes.map(asObject);
 
 export const ACTIONS = {
