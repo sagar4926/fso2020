@@ -1,14 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { clearFilter, setFilter } from "../reducers/filterReducer";
-const Filter = () => {
-  const filter = useSelector((state) => state.filter);
-  const dispatch = useDispatch();
+const Filter = ({ filter, clearFilter, setFilter }) => {
   const clear = () => {
-    dispatch(clearFilter());
+    clearFilter();
   };
   const filterChanged = (e) => {
-    dispatch(setFilter(e.target.value));
+    setFilter(e.target.value);
   };
 
   return (
@@ -23,4 +21,13 @@ const Filter = () => {
   );
 };
 
-export default Filter;
+const mapStateToProps = (state) => {
+  return {
+    filter: state.filter,
+  };
+};
+const mapDispatchToProps = {
+  clearFilter,
+  setFilter,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
