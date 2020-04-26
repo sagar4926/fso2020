@@ -12,9 +12,15 @@ const create = (payload) => {
   return Axios.post(ANECDOTES_ENDPOINT, payload).then((res) => res.data);
 };
 
+const update = (id, payload) => {
+  return Axios.patch(`${ANECDOTES_ENDPOINT}/${id}`, payload).then(
+    (res) => res.data
+  );
+};
 const anecdotes_api = {
   getAll,
-  create
+  create,
+  update,
 };
 
 export default anecdotes_api;
