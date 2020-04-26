@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 
 const reducer = combineReducers({
   anecdotes: anecdotesReducer,
-  notification: notificationReducer,
+  notifications: notificationReducer,
   filter: filterReducer,
 });
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
