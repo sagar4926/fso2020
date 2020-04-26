@@ -8,7 +8,7 @@ const AnecdoteForm = ({ actionCreateAnecdote, setNotification }) => {
     event.preventDefault();
     const content = event.target.content.value;
     actionCreateAnecdote(content);
-    setNotification(`Added new anecdote: ${content}`);
+    setNotification(`Added new anecdote: ${content}`, 5000);
     event.target.content.value = "";
   };
 

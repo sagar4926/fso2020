@@ -23,23 +23,23 @@ const notificationReducer = (state = [], action) => {
 
 export const setNotification = (message, time = 5000) => {
   return async (dispatch) => {
-    const _id = new Date().getMilliseconds();
+    const id = new Date().getMilliseconds();
     dispatch({
       type: ACTIONS.SET_NOTIFICATION,
       data: {
-        id: _id,
+        id,
         message,
         hide: false,
       },
     });
-    await ((id) => {
+    await (() => {
       return new Promise((resolve) =>
         setTimeout(() => {
           dispatch(clearNotification(id));
           resolve();
         }, time)
       );
-    })(_id);
+    })();
   };
 };
 

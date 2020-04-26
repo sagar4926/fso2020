@@ -5,7 +5,7 @@ import { setNotification } from "../reducers/notificationReducer";
 const AnecdotesList = ({ actionVote, setNotification, anecdotes }) => {
   const vote = (anecdote) => {
     actionVote(anecdote);
-    setNotification(`Liked anecdote: ${anecdote.content}`);
+    setNotification(`Liked anecdote: ${anecdote.content}`, 3000);
   };
 
   return (
