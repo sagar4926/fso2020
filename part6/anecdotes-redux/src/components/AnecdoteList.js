@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionVote } from "../reducers/anecdoteReducer";
 import { setNotification } from "../reducers/notificationReducer";
 const AnecdotesList = () => {
-  const anecdotes = useSelector((state) => state.anecdotes).sort(
-    (a, b) => a.votes < b.votes
-  );
+  const filter = useSelector((state) => state.filter);
+  const anecdotes = useSelector((state) => state.anecdotes)
+    .sort((a, b) => a.votes < b.votes)
+    .filter((anecdote) => {
+      return filter.length > 0 ? anecdote.content.includes(filter) : true;
+    });
 
   const dispatch = useDispatch();
 
