@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import NavBar from "./NavBar";
-import { Switch, Route, Redirect, useRouteMatch } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  useHistory,
+} from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import Anecdotes from "./Anecdotes";
 import About from "./About";
 import CreateAnecdoteForm from "./CreateAnecdoteForm";
 import Anecdote from "./Anecdote";
+import Notification from "./notification/Notification";
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -26,11 +33,19 @@ const App = () => {
     },
   ]);
 
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState(undefined);
+  const history = useHistory();
+
+  const showNotification = (message, time = 5000, type = "success") => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(undefined), 5000);
+  };
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
+    showNotification(`a new anecdote "${anecdote.content}" created!`, 10000);
+    history.push("/anecdotes");
   };
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
@@ -55,6 +70,7 @@ const App = () => {
     <div>
       <Header />
       <NavBar />
+      <Notification notification={notification} />
       <Switch>
         <Route path="/anecdotes/:id">
           <Anecdote anecdote={anecdote} />
