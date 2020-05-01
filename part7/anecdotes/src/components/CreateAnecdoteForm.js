@@ -2,9 +2,10 @@ import React from "react";
 import useField from "../hooks/UseField";
 
 const CreateAnecdoteForm = (props) => {
-  const content = useField("content");
-  const author = useField("author");
-  const info = useField("info");
+  const { reset: content_reset, ...content } = useField("content");
+  const { reset: author_reset, ...author } = useField("author");
+  const { reset: info_reset, ...info } = useField("info");
+  const resets = [content_reset, author_reset, info_reset];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,9 +19,7 @@ const CreateAnecdoteForm = (props) => {
 
   const handleReset = (e) => {
     e.preventDefault();
-    content.reset()
-    author.reset()
-    info.reset()
+    resets.forEach((reset) => reset());
   };
 
   return (
