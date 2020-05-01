@@ -1,7 +1,6 @@
-/* eslint-disable indent */
 const ACTIONS = {
-  ADD: "ADD",
-  CLEAR: "CLEAR",
+  ADD: "ADD_NOTIFICATION",
+  CLEAR: "CLEAR_NOTIFICATION",
 };
 
 const notificationReducer = (state = [], action) => {
@@ -18,25 +17,24 @@ const notificationReducer = (state = [], action) => {
   }
 };
 
-export const addNotification = (message, type = "success") => async (
-  dispatch
-) => {
+export const addNotification = (
+  message,
+  type = "success",
+  time = 5000
+) => async (dispatch) => {
   const id = new Date().getTime();
   dispatch({
     type: ACTIONS.ADD,
     data: {
       id,
       message,
-      type,
-      hide: false,
+      type
     },
   });
-  dispatch(clearNotificationDelayed(id));
+  dispatch(clearNotificationDelayed(id, time));
 };
 
-export const clearNotificationDelayed = (id, time = 5000) => async (
-  dispatch
-) => {
+export const clearNotificationDelayed = (id, time) => async (dispatch) => {
   await new Promise((resolve) => {
     setTimeout(() => {
       dispatch({

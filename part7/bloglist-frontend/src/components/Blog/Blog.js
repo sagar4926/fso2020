@@ -5,10 +5,6 @@ import PropTypes from "prop-types";
 
 const Blog = ({ blog, onLike, onDelete }) => {
   const user = storageService.getUser();
-
-  console.log("User ", user);
-  console.log("Blog ", blog);
-
   return (
     <div
       className="blog"

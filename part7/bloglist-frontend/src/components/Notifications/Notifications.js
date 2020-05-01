@@ -4,9 +4,7 @@ import Notification from "./Notification/Notification";
 import "./Notifications.css";
 
 const Notifications = () => {
-  const notifications = useSelector((state) =>
-    state.notifications.filter((notification) => !notification.hide)
-  );
+  const notifications = useSelector((state) => state.notifications);
   return (
     <div className="notifications">
       {notifications.map((notification) => (
