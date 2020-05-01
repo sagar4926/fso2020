@@ -16,10 +16,17 @@ const CreateAnecdoteForm = (props) => {
     });
   };
 
+  const handleReset = (e) => {
+    e.preventDefault();
+    content.reset()
+    author.reset()
+    info.reset()
+  };
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           content
           <input {...content} />
@@ -33,6 +40,7 @@ const CreateAnecdoteForm = (props) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button type="reset">clear</button>
       </form>
     </div>
   );
