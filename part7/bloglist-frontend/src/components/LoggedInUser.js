@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/reducers/userReducer";
 import { useHistory } from "react-router-dom";
+import { Typography, Button } from "@material-ui/core";
 const LoggedInUser = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -12,9 +13,10 @@ const LoggedInUser = () => {
   }
 
   return (
-    <div>
-      <span> Logged in {user.name} </span>
-      <button
+    <>
+      <Typography> Logged in {user.name} </Typography>
+      <Button
+        color="inherit"
         onClick={() => {
           dispatch(
             logout(() => {
@@ -24,8 +26,8 @@ const LoggedInUser = () => {
         }}
       >
         Logout
-      </button>
-    </div>
+      </Button>
+    </>
   );
 };
 export default LoggedInUser;

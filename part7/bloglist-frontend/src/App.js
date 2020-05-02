@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Switch } from "react-router-dom";
+import { Container } from "@material-ui/core";
 import LoginForm from "./components/LoginForm";
 import NoAuthRoute from "./components/NoAuthRoute";
 import Notifications from "./components/Notifications/Notifications";
@@ -16,7 +17,7 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <Container>
       <Notifications />
       <Switch>
         <NoAuthRoute path="/login">
@@ -26,7 +27,7 @@ const App = () => {
           <Dashboard />
         </PrivateRoute>
       </Switch>
-    </>
+    </Container>
   );
 };
 
