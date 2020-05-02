@@ -12,6 +12,7 @@ const NavBar = () => {
       <ul
         style={{
           listStyleType: "none",
+          padding: 0,
         }}
       >
         <li style={listStyle}>

@@ -32,8 +32,8 @@ export const initUser = () => {
   };
 };
 
-export const login = (username, password) => async (dispatch) => {
-  loginApi
+export const login = (username, password, callback) => async (dispatch) => {
+  return loginApi
     .login(username, password)
     .then((user) => {
       storageService.storeUser(user);
@@ -42,6 +42,7 @@ export const login = (username, password) => async (dispatch) => {
         data: user,
       });
       dispatch(addNotification("Logged in!"));
+      callback();
     })
     .catch(() =>
       addNotification(
@@ -51,10 +52,11 @@ export const login = (username, password) => async (dispatch) => {
     );
 };
 
-export const logout = () => async (dispatch) => {
+export const logout = (callback) => async (dispatch) => {
   storageService.removeUser();
   dispatch({
     type: ACTIONS.LOGOUT,
   });
   dispatch(addNotification("Logged out!"));
+  callback();
 };

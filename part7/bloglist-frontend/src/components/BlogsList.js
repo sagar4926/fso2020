@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const BlogsList = () => {
   const blogs = useSelector((state) =>
     [...state.blogs].sort((l, r) => r.likes - l.likes)
   );
   const user = useSelector((state) => state.user);
-  const history = useHistory();
-  useEffect(() => {
-    if (!user) {
-      history.push("/login");
-    }
-  }, [user]);
 
   if (!user) {
     return null;

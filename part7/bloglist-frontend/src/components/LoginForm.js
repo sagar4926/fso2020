@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import { login } from "../redux/reducers/userReducer";
-import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const history = useHistory();
-
-  useEffect(() => {
-    if (user) {
-      history.push("/blogs");
-    }
-  }, [user]);
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/" } };
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +19,11 @@ const LoginForm = () => {
 
   const onLogin = (event) => {
     event.preventDefault();
-    dispatch(login(username, password));
+    dispatch(
+      login(username, password, () => {
+        history.replace(from);
+      })
+    );
   };
 
   return (
