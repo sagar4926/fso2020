@@ -1,11 +1,25 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/reducers/userReducer";
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user) {
+      history.push("/blogs");
+    }
+  }, [user]);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  if (user) {
+    return null;
+  }
 
   const onLogin = (event) => {
     event.preventDefault();
