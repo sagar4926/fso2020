@@ -6,9 +6,13 @@ import LoginForm from "./components/LoginForm";
 import Notifications from "./components/Notifications/Notifications";
 import Togglable from "./components/Togglable";
 import User from "./components/User";
-import { initBlogs, addBlog } from "./redux/reducers/blogsReducer";
+import {
+  addBlog,
+  deleteBlog,
+  initBlogs,
+  likeBlog,
+} from "./redux/reducers/blogsReducer";
 import { addNotification } from "./redux/reducers/notificationsReducer";
-import { default as blogsApi } from "./services/blogs";
 import storageService from "./services/storage";
 
 const App = () => {
@@ -43,31 +47,11 @@ const App = () => {
   };
 
   const blogLiked = (blog) => {
-    blogsApi
-      .update(blog.id, { likes: blog.likes + 1 })
-      .then((updatedBlog) => {
-        // const updatedBlogs = blogs.map((b) =>
-        //   b.id === updatedBlog.id ? updatedBlog : b
-        // );
-        // setBlogs(updatedBlogs);
-        showSuccessNotification(`Blog liked: ${blog.title}`);
-      })
-      .catch(() => {
-        showErrorNotification("Failed to like blog.");
-      });
+    dispatch(likeBlog(blog));
   };
 
   const blogDeleted = (blog) => {
-    const title = blog.title;
-    blogsApi
-      .delete(blog.id)
-      .then(() => {
-        // setBlogs(blogs.filter((b) => b.id !== blog.id));
-        showSuccessNotification(`Blog deleted: ${title}`);
-      })
-      .catch(() => {
-        showErrorNotification("Failed to delete blog.");
-      });
+    dispatch(deleteBlog(blog));
   };
 
   return (

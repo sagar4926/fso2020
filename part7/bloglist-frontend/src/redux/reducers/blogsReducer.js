@@ -4,6 +4,8 @@ import { addNotification } from "./notificationsReducer";
 const ACTIONS = {
   INIT: "INIT_BLOGS",
   ADD: "ADD_BLOG",
+  UPDATE: "UPDATE_BLOG",
+  DELETE: "DELETE_BLOG",
 };
 
 const blogsReducer = (state = [], action) => {
@@ -13,6 +15,14 @@ const blogsReducer = (state = [], action) => {
     }
     case ACTIONS.ADD: {
       return [...state, action.data];
+    }
+    case ACTIONS.UPDATE: {
+      return state.map((blog) =>
+        action.data.id === blog.id ? action.data : blog
+      );
+    }
+    case ACTIONS.DELETE: {
+      return state.filter((blog) => action.data.id !== blog.id);
     }
     default: {
       return state;
@@ -48,4 +58,34 @@ export const addBlog = (blog) => async (dispatch) => {
     });
 };
 
+export const likeBlog = (blog) => async (dispatch) => {
+  blogs
+    .update(blog.id, { likes: blog.likes + 1 })
+    .then((data) => {
+      dispatch({
+        type: ACTIONS.UPDATE,
+        data,
+      });
+      dispatch(addNotification(`Blog liked ${data.title}`));
+    })
+    .catch(() => {
+      dispatch(addNotification("Failed to like blog.", "error"));
+    });
+};
+
+export const deleteBlog = (blog) => async (dispatch) => {
+  const title = blog.title;
+  blogs
+    .delete(blog.id)
+    .then(() => {
+      dispatch({
+        type: ACTIONS.DELETE,
+        data: blog,
+      });
+      dispatch(addNotification(`Blog deleted: ${title}`));
+    })
+    .catch(() => {
+      dispatch(addNotification("Failed to delete blog.", "error"));
+    });
+};
 export default blogsReducer;
