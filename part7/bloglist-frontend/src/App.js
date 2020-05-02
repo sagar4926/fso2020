@@ -12,6 +12,7 @@ import { initBlogs } from "./redux/reducers/blogsReducer";
 import { initUser } from "./redux/reducers/userReducer";
 import { initUsers } from "./redux/reducers/usersReducer";
 import User from "./components/User";
+import Blog from "./components/Blog/Blog";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -42,6 +43,9 @@ const App = () => {
         </Route>
         <Route path="/users">
           <Users />
+        </Route>
+        <Route path="/blogs/:id">
+          <Blog />
         </Route>
         <Route path="/blogs">
           <Togglable buttonText="Add Blog" ref={blogFormRef}>

@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
-import Blog from "./Blog/Blog";
-import { useSelector, useDispatch } from "react-redux";
-import { likeBlog, deleteBlog } from "../redux/reducers/blogsReducer";
-import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 
 const BlogsList = () => {
-  const dispatch = useDispatch();
   const blogs = useSelector((state) =>
     [...state.blogs].sort((l, r) => r.likes - l.likes)
   );
@@ -25,16 +22,18 @@ const BlogsList = () => {
     <div id="blog-list">
       <h2>blogs</h2>
       {blogs.map((blog) => (
-        <Blog
+        <div
           key={blog.id}
-          blog={blog}
-          onLike={() => {
-            dispatch(likeBlog(blog));
+          className="blog"
+          style={{
+            padding: 10,
+            border: "solid",
+            borderWidth: 1,
+            marginBottom: 5,
           }}
-          onDelete={() => {
-            dispatch(deleteBlog(blog));
-          }}
-        />
+        >
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> : {blog.author}
+        </div>
       ))}
     </div>
   );
