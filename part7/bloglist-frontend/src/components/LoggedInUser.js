@@ -1,12 +1,17 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/reducers/userReducer";
-const LoggedInUser = ({ user }) => {
+const LoggedInUser = () => {
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  if (!user) {
+    return null;
+  }
+
   return (
-    <>
-      <p> {user.name} logged in </p>
+    <div>
+      <span> Logged in {user.name} </span>
       <button
         onClick={() => {
           dispatch(logout());
@@ -14,7 +19,7 @@ const LoggedInUser = ({ user }) => {
       >
         Logout
       </button>
-    </>
+    </div>
   );
 };
 export default LoggedInUser;
