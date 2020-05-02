@@ -5,7 +5,6 @@ import AddBlogForm from "./components/AddBlogForm/AddBlogForm";
 import Blog from "./components/Blog/Blog";
 import BlogsList from "./components/BlogsList";
 import NavBar from "./components/NavBar";
-import PrivateRoute from "./components/PrivateRoute";
 import Togglable from "./components/Togglable";
 import User from "./components/User";
 import Users from "./components/Users";
@@ -46,9 +45,9 @@ const Dashboard = () => {
           </Togglable>
           <BlogsList />
         </Route>
-        <PrivateRoute path="/">
+        <Route path="/">
           <Redirect to="/blogs" />
-        </PrivateRoute>
+        </Route>
       </Switch>
     </>
   );

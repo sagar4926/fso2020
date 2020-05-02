@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
+import NoAuthRoute from "./components/NoAuthRoute";
 import Notifications from "./components/Notifications/Notifications";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./Dashboard";
@@ -18,9 +19,9 @@ const App = () => {
     <>
       <Notifications />
       <Switch>
-        <Route path="/login">
+        <NoAuthRoute path="/login">
           <LoginForm />
-        </Route>
+        </NoAuthRoute>
         <PrivateRoute path="/">
           <Dashboard />
         </PrivateRoute>
