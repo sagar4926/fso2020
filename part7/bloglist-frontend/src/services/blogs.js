@@ -24,6 +24,12 @@ const update = (id, payload) => {
     .then((response) => response.data);
 };
 
+const addComment = (id, payload) => {
+  return axios
+    .post(`${baseUrl}/${id}/comments`, payload)
+    .then((response) => response.data);
+};
+
 const _delete = (id) => {
   const user = storageService.getUser();
   return axios.delete(`${baseUrl}/${id}`, {
@@ -32,4 +38,4 @@ const _delete = (id) => {
     },
   });
 };
-export default { getAll, create, update, delete: _delete };
+export default { getAll, create, update, delete: _delete, addComment };

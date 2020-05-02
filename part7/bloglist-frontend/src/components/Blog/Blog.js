@@ -36,6 +36,12 @@ const Blog = () => {
       </button>
       <br></br>
       {blog.user ? `Added by: ${blog.user.name}` : null}
+      <div>
+        <h4>Comments</h4>
+        <ul>
+          {blog.comments.map(comment =>  <li key={comment.id}>{comment.content}</li>)}
+        </ul>
+      </div>
       {blog.user && blog.user.id === user.id && (
         <button
           id="btn-blog-delete"
