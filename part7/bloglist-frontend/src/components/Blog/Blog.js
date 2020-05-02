@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { deleteBlog, likeBlog } from "../../redux/reducers/blogsReducer";
+import Comments from "./Comments/Comments";
 
 const Blog = () => {
   const { id } = useParams();
@@ -36,12 +37,7 @@ const Blog = () => {
       </button>
       <br></br>
       {blog.user ? `Added by: ${blog.user.name}` : null}
-      <div>
-        <h4>Comments</h4>
-        <ul>
-          {blog.comments.map(comment =>  <li key={comment.id}>{comment.content}</li>)}
-        </ul>
-      </div>
+      <Comments blog={blog}/>
       {blog.user && blog.user.id === user.id && (
         <button
           id="btn-blog-delete"

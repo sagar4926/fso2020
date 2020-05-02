@@ -6,6 +6,7 @@ const ACTIONS = {
   ADD: "ADD_BLOG",
   UPDATE: "UPDATE_BLOG",
   DELETE: "DELETE_BLOG",
+  COMMENT: "BLOG_ADD_COMMENT",
 };
 
 const blogsReducer = (state = [], action) => {
@@ -19,6 +20,13 @@ const blogsReducer = (state = [], action) => {
     case ACTIONS.UPDATE: {
       return state.map((blog) =>
         action.data.id === blog.id ? action.data : blog
+      );
+    }
+    case ACTIONS.COMMENT: {
+      return state.map((blog) =>
+        action.data.blog === blog.id
+          ? { ...blog, comments: [...blog.comments, action.data] }
+          : blog
       );
     }
     case ACTIONS.DELETE: {
@@ -70,6 +78,22 @@ export const likeBlog = (blog) => async (dispatch) => {
     })
     .catch(() => {
       dispatch(addNotification("Failed to like blog.", "error"));
+    });
+};
+
+export const addComment = (blog_id, content) => async (dispatch) => {
+  blogs
+    .addComment(blog_id, { content })
+    .then((data) => {
+      dispatch({
+        type: ACTIONS.COMMENT,
+        data,
+      });
+      dispatch(addNotification(`Comment added ${data.content}`));
+    })
+    .catch((e) => {
+      console.log("Error", e);
+      dispatch(addNotification("Failed to add comment.", "error"));
     });
 };
 
