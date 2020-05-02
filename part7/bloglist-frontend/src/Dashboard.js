@@ -10,6 +10,7 @@ import User from "./components/User";
 import Users from "./components/Users";
 import { initBlogs } from "./redux/reducers/blogsReducer";
 import { initUsers } from "./redux/reducers/usersReducer";
+import { Toolbar } from "@material-ui/core";
 
 const Dashboard = () => {
   // Using this over React.createRef persists the ref across state changes and re-renders
@@ -29,6 +30,7 @@ const Dashboard = () => {
   return (
     <>
       <NavBar />
+      <Toolbar />
       <Switch>
         <Route path="/users/:id">
           <User />

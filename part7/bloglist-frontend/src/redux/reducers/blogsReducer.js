@@ -72,7 +72,7 @@ export const likeBlog = (blog) => async (dispatch) => {
     .then((data) => {
       dispatch({
         type: ACTIONS.UPDATE,
-        data,
+        data: { ...blog, likes: data.likes },
       });
       dispatch(addNotification(`Blog liked ${data.title}`));
     })

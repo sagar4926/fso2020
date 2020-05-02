@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addBlog } from "../../redux/reducers/blogsReducer";
+import { TextField, Typography, Button } from "@material-ui/core";
 
 const AddBlogForm = ({ onBlogAdded }) => {
   const dispatch = useDispatch();
@@ -27,44 +28,56 @@ const AddBlogForm = ({ onBlogAdded }) => {
 
   return (
     <>
-      <h3>Create New</h3>
+      <Typography variant="h5">Create blog</Typography>
       <form onSubmit={createBlog}>
-        <label style={{ display: "block" }}>
-          Title:
-          <input
-            className="input-title"
-            value={title}
-            onChange={({ target }) => {
-              setTitle(target.value);
-            }}
-            placeholder="Enter title"
-          ></input>
-        </label>
-        <label style={{ display: "block" }}>
-          Author:
-          <input
-            className="input-author"
-            value={author}
-            onChange={({ target }) => {
-              setAuthor(target.value);
-            }}
-            placeholder="Enter author"
-          ></input>
-        </label>
-        <label style={{ display: "block" }}>
-          Url:
-          <input
-            className="input-url"
-            value={url}
-            onChange={({ target }) => {
-              setUrl(target.value);
-            }}
-            placeholder="Enter url"
-          ></input>
-        </label>
-        <button className="button-submit" type="submit">
+        <TextField
+          id="input-title"
+          label="Title"
+          placeholder="Enter title"
+          value={title}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          onChange={({ target }) => {
+            setTitle(target.value);
+          }}
+        />
+        <TextField
+          id="input-author"
+          label="Author"
+          placeholder="Enter author's name"
+          value={author}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          onChange={({ target }) => {
+            setAuthor(target.value);
+          }}
+        />
+        <TextField
+          id="input-url"
+          label="Url"
+          placeholder="Enter url"
+          value={url}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          onChange={({ target }) => {
+            setUrl(target.value);
+          }}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          margin="normal"
+        >
           Create
-        </button>
+        </Button>
       </form>
     </>
   );

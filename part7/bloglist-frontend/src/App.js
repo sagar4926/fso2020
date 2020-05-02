@@ -17,7 +17,7 @@ const App = () => {
   }, []);
 
   return (
-    <Container maxWidth="false" style={{ padding: 0 }}>
+    <Container maxWidth={false} style={{ padding: 0 }}>
       <Notifications />
       <Switch>
         <NoAuthRoute path="/login">

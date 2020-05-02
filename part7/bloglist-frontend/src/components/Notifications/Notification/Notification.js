@@ -1,8 +1,16 @@
 import React from "react";
-import "./Notification.css";
-
+import { Alert } from "@material-ui/lab";
 const Notification = ({ notification }) => {
-  return <div className={`notification ${notification.type}`}>{notification.message}</div>;
+  return (
+    <Alert
+      className="notification"
+      severity={notification.type}
+      style={{ marginBottom: 10 }}
+    >
+      {" "}
+      {notification.message}{" "}
+    </Alert>
+  );
 };
 
 export default Notification;
