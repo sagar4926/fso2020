@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import AddBlogForm from "./components/AddBlogForm/AddBlogForm";
 import BlogsList from "./components/BlogsList";
+import LoggedInUser from "./components/LoggedInUser";
 import LoginForm from "./components/LoginForm";
 import Notifications from "./components/Notifications/Notifications";
 import Togglable from "./components/Togglable";
-import User from "./components/User";
 import Users from "./components/Users";
 import { initBlogs } from "./redux/reducers/blogsReducer";
 import { initUser } from "./redux/reducers/userReducer";
 import { initUsers } from "./redux/reducers/usersReducer";
+import User from "./components/User";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -31,10 +32,13 @@ const App = () => {
   return (
     <>
       <Notifications />
-      {user && <User user={user} />}
+      {user && <LoggedInUser user={user} />}
       <Switch>
         <Route path="/login">
           <LoginForm />
+        </Route>
+        <Route path="/users/:id">
+          <User />
         </Route>
         <Route path="/users">
           <Users />
