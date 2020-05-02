@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import loginApi from "../services/login";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/reducers/userReducer";
 
-const LoginForm = ({ onLogin, onError }) => {
+const LoginForm = () => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = (event) => {
+  const onLogin = (event) => {
     event.preventDefault();
-    loginApi
-      .login(username, password)
-      .then(onLogin)
-      .catch(() => onError("Login failed!. Username or password is incorrect"));
+    dispatch(login(username, password));
   };
 
   return (
     <div>
       <h1>Log in to the app</h1>
-      <form onSubmit={login}>
+      <form onSubmit={onLogin}>
         <label style={{ display: "block" }}>
           Username:
           <input
@@ -40,7 +39,9 @@ const LoginForm = ({ onLogin, onError }) => {
             type="password"
           ></input>
         </label>
-        <button id="btn-submit" type="submit">Login</button>
+        <button id="btn-submit" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );

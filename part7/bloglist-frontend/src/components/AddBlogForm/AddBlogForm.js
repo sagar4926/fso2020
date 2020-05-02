@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addBlog } from "../../redux/reducers/blogsReducer";
 
 const AddBlogForm = ({ onBlogAdded }) => {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -12,7 +15,8 @@ const AddBlogForm = ({ onBlogAdded }) => {
   };
   const createBlog = (event) => {
     event.preventDefault();
-    onBlogAdded({ title, author, url });
+    dispatch(addBlog({ title, author, url }));
+    onBlogAdded();
     clearForm();
   };
 
