@@ -11,4 +11,15 @@ export const Q_ALL_AUTHORS = gql`
   }
 `;
 
+export const Q_ALL_BOOKS = gql`
+  query {
+    allBooks {
+      id
+      title
+      author
+      published
+    }
+  }
+`;
+
 export default { Q_ALL_AUTHORS };
