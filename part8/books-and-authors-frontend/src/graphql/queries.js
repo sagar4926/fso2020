@@ -21,5 +21,3 @@ export const Q_ALL_BOOKS = gql`
     }
   }
 `;
-
-export default { Q_ALL_AUTHORS };

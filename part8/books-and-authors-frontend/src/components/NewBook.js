@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { M_ADD_BOOK } from "../graphql/mutations";
+import { Q_ALL_BOOKS, Q_ALL_AUTHORS } from "../graphql/queries";
 
 const NewBook = (props) => {
   const [title, setTitle] = useState("");
@@ -6,6 +9,10 @@ const NewBook = (props) => {
   const [published, setPublished] = useState("");
   const [genre, setGenre] = useState("");
   const [genres, setGenres] = useState([]);
+
+  const [addBook] = useMutation(M_ADD_BOOK, {
+    refetchQueries: [{ query: Q_ALL_BOOKS }, { query: Q_ALL_AUTHORS }]
+  });
 
   if (!props.show) {
     return null;
@@ -15,6 +22,15 @@ const NewBook = (props) => {
     event.preventDefault();
 
     console.log("add book...");
+
+    addBook({
+      variables: {
+        title,
+        author,
+        published: Number(published),
+        genres,
+      },
+    });
 
     setTitle("");
     setPublished("");
