@@ -18,32 +18,6 @@ mongoose
     console.log("Error connecting to MongoDB", error.message);
   });
 
-let authors = [
-  {
-    name: "Robert Martin",
-    id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
-    born: 1952,
-  },
-  {
-    name: "Martin Fowler",
-    id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-    born: 1963,
-  },
-  {
-    name: "Fyodor Dostoevsky",
-    id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-    born: 1821,
-  },
-  {
-    name: "Joshua Kerievsky", // birthyear not known
-    id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-  },
-  {
-    name: "Sandi Metz", // birthyear not known
-    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
-  },
-];
-
 let books = [
   {
     title: "Clean Code",
@@ -132,21 +106,22 @@ const typeDefs = gql`
 
 const resolvers = {
   Author: {
-    bookCount: (root) =>
-      books.filter((book) => book.author === root.name).length,
+    bookCount: (root) => Book.count({ author: root._id }),
   },
   Query: {
     authorCount: () => Author.collection.countDocuments(),
     bookCount: () => Book.collection.countDocuments(),
     allBooks: (root, args) => {
-      let res = Book.find({});
+      const filter = {};
       if (args.author) {
         res = res.filter((book) => book.author == args.author);
       }
       if (args.genre) {
-        res = res.filter((book) => book.genres.includes(args.genre));
+        filter.genres = {
+          $in: [args.genre],
+        };
       }
-      return res;
+      return Book.find(filter);
     },
     allAuthors: () => Author.find({}),
   },
@@ -162,14 +137,13 @@ const resolvers = {
       const book = new Book({ author: authorModel._id, ...bookArgs });
       return book.save();
     },
-    editAuthor: (root, args) => {
-      const author = authors.find((author) => author.name === args.name);
+    editAuthor: async (root, { name, setBornTo }) => {
+      let author = await Author.findOne({ name });
       if (!author) {
-        return author;
+        return null;
       }
-      const authorToUpdate = { ...author, born: args.setBornTo };
-      authors = authors.map((a) => (a.id === author.id ? authorToUpdate : a));
-      return authorToUpdate;
+      author.born = setBornTo;
+      return author.save();
     },
   },
 };
