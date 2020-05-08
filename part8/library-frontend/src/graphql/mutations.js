@@ -16,7 +16,10 @@ export const M_ADD_BOOK = gql`
       id
       title
       published
-      author
+      author {
+        id
+        name
+      }
       genres
     }
   }
