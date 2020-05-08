@@ -30,3 +30,11 @@ export const M_EDIT_AUTHOR_BORN = gql`
     }
   }
 `;
+
+export const M_LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      value
+    }
+  }
+`;
