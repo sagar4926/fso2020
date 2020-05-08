@@ -7,7 +7,6 @@ const Books = (props) => {
   const [filter, setFilter] = useState(undefined);
 
   useEffect(() => {
-    console.log("Filter changed", filter);
     getBooks({
       variables: {
         genre: filter,
@@ -36,7 +35,7 @@ const Books = (props) => {
   return (
     <div>
       <h2>books</h2>
-
+      {filter && <p>books in genre {filter}</p>}
       <table>
         <tbody>
           <tr>

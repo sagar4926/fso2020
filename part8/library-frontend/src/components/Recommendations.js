@@ -9,7 +9,6 @@ const Recommendations = (props) => {
 
   useEffect(() => {
     if (meResult.data) {
-      console.log("Getting recommended books");
       getBooks({
         variables: {
           genre: meResult.data.me.favouriteGenre,
