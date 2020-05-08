@@ -1,10 +1,19 @@
-import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
-import { Q_ALL_BOOKS } from "../graphql/queries";
+import { useLazyQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { Q_RECOMMENDED_BOOKS } from "../graphql/queries";
 
 const Books = (props) => {
-  const result = useQuery(Q_ALL_BOOKS);
+  const [getBooks, result] = useLazyQuery(Q_RECOMMENDED_BOOKS);
   const [filter, setFilter] = useState(undefined);
+
+  useEffect(() => {
+    console.log("Filter changed", filter);
+    getBooks({
+      variables: {
+        genre: filter,
+      },
+    });
+  }, [filter]);
 
   if (!props.show) {
     return null;

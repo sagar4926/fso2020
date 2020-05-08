@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useQuery, useLazyQuery } from "@apollo/client";
-import { Q_RECOMMENDED_BOOKS, Q_ME } from "../graphql/queries";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { Q_ME, Q_RECOMMENDED_BOOKS } from "../graphql/queries";
 
 const Recommendations = (props) => {
   const meResult = useQuery(Q_ME);
