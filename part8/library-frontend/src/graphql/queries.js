@@ -25,3 +25,27 @@ export const Q_ALL_BOOKS = gql`
     }
   }
 `;
+
+export const Q_RECOMMENDED_BOOKS = gql`
+  query allBooks($genre: String!) {
+    allBooks(genre: $genre) {
+      id
+      title
+      author {
+        id
+        name
+      }
+      published
+      genres
+    }
+  }
+`;
+
+export const Q_ME = gql`
+  query {
+    me {
+      username
+      favouriteGenre
+    }
+  }
+`;

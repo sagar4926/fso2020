@@ -3,7 +3,9 @@ import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import LoginForm from "./components/LoginForm";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
+import { Q_ME } from "./graphql/queries";
+import Recommendations from "./components/Recommendations";
 
 const App = () => {
   const [page, setPage] = useState("authors");
@@ -17,12 +19,13 @@ const App = () => {
   return (
     <div>
       <div>
-        <button onClick={() => setPage("authors")}>
-          authors
-        </button>
+        <button onClick={() => setPage("authors")}>authors</button>
         <button onClick={() => setPage("books")}>books</button>
         {token && (
           <>
+            <button onClick={() => setPage("recommendations")}>
+              recommendations
+            </button>
             <button onClick={() => setPage("add")}>add book</button>
             <button
               onClick={() => {
@@ -43,6 +46,7 @@ const App = () => {
       <Books show={page === "books"} />
 
       <NewBook show={page === "add"} />
+      <Recommendations show={page === "recommendations"} />
       <LoginForm
         show={page === "login"}
         onLogin={(value) => {
