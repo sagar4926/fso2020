@@ -6,6 +6,7 @@ import LoginForm from "./components/LoginForm";
 import NewBook from "./components/NewBook";
 import Recommendations from "./components/Recommendations";
 import { S_BOOK_ADDED } from "./graphql/subscriptions";
+import { Q_RECOMMENDED_BOOKS } from "./graphql/queries";
 
 const App = () => {
   const [page, setPage] = useState("authors");
@@ -17,9 +18,18 @@ const App = () => {
   useEffect(() => {
     setToken(localStorage.getItem("library-token"));
   }, []);
+
   useSubscription(S_BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       console.log(subscriptionData);
+      const allBooks = client.readQuery({ query: Q_RECOMMENDED_BOOKS });
+      client.writeQuery({
+        query: Q_RECOMMENDED_BOOKS,
+        data: {
+          ...allBooks,
+          allBooks: [...allBooks.allBooks, subscriptionData.data.bookAdded],
+        },
+      });
       setNotification(
         `New Book added: ${subscriptionData.data.bookAdded.title}`
       );

@@ -13,15 +13,7 @@ const NewBook = (props) => {
 
   const [addBook] = useMutation(M_ADD_BOOK, {
     refetchQueries: [{ query: Q_ALL_AUTHORS }],
-    update: (store, response) => {
-      const allBooks = store.readQuery({ query: Q_RECOMMENDED_BOOKS });
-      store.writeQuery({
-        query: Q_RECOMMENDED_BOOKS,
-        data: {
-          ...allBooks,
-          allBooks: [...allBooks.allBooks, response.data.addBook],
-        },
-      });
+    update: (store, response) => {      
       if (
         user.data &&
         response.data.addBook.genres.includes(user.data.me.favouriteGenre)
