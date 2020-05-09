@@ -1,3 +1,5 @@
+const DataLoader = require("dataloader");
+
 const {
   ApolloServer,
   gql,
@@ -77,7 +79,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Author: {
-    bookCount: (root) => Book.count({ author: root._id }),
+    bookCount: (root) => {
+      // return Book.count({ author: root._id });
+      return bookCountLoader.load(root._id);
+    },
   },
   Book: {
     author: (root) => Author.findById(root.author),
@@ -175,10 +180,44 @@ const resolvers = {
   },
 };
 
+const bookCountLoader = new DataLoader(
+  async (keys) => {
+    const res = await Book.aggregate([
+      {
+        $match: {
+          author: {
+            $in: keys,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: `$author`,
+          count: { $sum: 1 },
+        },
+      },
+    ]).exec();
+    const mapped = keys.map((key) => {
+      const found = res.find((r) => {
+        const match = String(r._id) === String(key);
+        return match;
+      });
+      return found ? found.count : undefined;
+    });
+    return mapped;
+  },
+  {
+    batchScheduleFn: (callback) => setTimeout(callback, 150),
+  }
+);
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
+    const response = {
+      loader: bookCountLoader,
+    };
     const header = req ? req.headers.authorization : null;
     if (header && header.toLowerCase().startsWith("bearer ")) {
       const payload = jsonwebtoken.verify(
@@ -186,8 +225,9 @@ const server = new ApolloServer({
         process.env.JWT_SECRET
       );
       const currentUser = await User.findById(payload.id);
-      return { currentUser };
+      response.currentUser = currentUser;
     }
+    return response;
   },
 });
 
