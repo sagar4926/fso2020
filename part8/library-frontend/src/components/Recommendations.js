@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Q_ME, Q_RECOMMENDED_BOOKS } from "../graphql/queries";
 
 const Recommendations = (props) => {
+  console.log("Querying me");
   const meResult = useQuery(Q_ME);
   const [getBooks, booksResult] = useLazyQuery(Q_RECOMMENDED_BOOKS);
   const [filter, setFilter] = useState(undefined);
 
   useEffect(() => {
-    if (meResult.data) {
+    if (meResult.data && meResult.data.me) {
       getBooks({
         variables: {
           genre: meResult.data.me.favouriteGenre,
@@ -27,6 +28,12 @@ const Recommendations = (props) => {
 
   if (booksResult.loading) {
     return <div>loading...</div>;
+  }
+
+  console.log("Reached here");
+
+  if (meResult.data && !meResult.data.me) {
+    return null;
   }
 
   return (
