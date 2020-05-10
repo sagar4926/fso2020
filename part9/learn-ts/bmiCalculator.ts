@@ -18,7 +18,7 @@ const calculateBmi = (weight: number, height: number): string => {
 };
 
 if (require.main === module) {
-  const [_program, _file, argWeight, argHeight, ..._rest] = process.argv;
+  const [,, argWeight, argHeight] = process.argv;
 
   const weight: number = argWeight ? Number(argWeight) : 66;
   const height: number = argHeight ? Number(argHeight) : 182;

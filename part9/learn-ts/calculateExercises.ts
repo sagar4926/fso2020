@@ -41,7 +41,7 @@ const calculateExercises = (
 };
 
 if (require.main === module) {
-  const [_program, _file, argTarget, ...argDailyRoutine] = process.argv;
+  const [,, argTarget, ...argDailyRoutine] = process.argv;
   const target = argTarget ? Number(argTarget) : 2;
   const dailyRoutine = argDailyRoutine.map((arg) => {
     const n = Number(arg);
