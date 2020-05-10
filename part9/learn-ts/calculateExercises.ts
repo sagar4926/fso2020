@@ -13,6 +13,9 @@ const calculateExercises = (
   daily_routine: number[],
   target: number
 ): ExerciseReport => {
+  if (isNaN(target)) {
+    throw new Error("Target should be a number");
+  }
   const trained_days = daily_routine.filter((hours) => hours > 0);
   const average =
     daily_routine.reduce((a, b) => a + b, 0) / daily_routine.length;
@@ -37,4 +40,15 @@ const calculateExercises = (
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+if (require.main === module) {
+  const [_program, _file, argTarget, ...argDailyRoutine] = process.argv;
+  const target = argTarget ? Number(argTarget) : 2;
+  const dailyRoutine = argDailyRoutine.map((arg) => {
+    const n = Number(arg);
+    if (isNaN(n)) {
+      throw new Error("Daily routine values should be numbers");
+    }
+    return n;
+  });
+  console.log(calculateExercises(dailyRoutine, target));
+}

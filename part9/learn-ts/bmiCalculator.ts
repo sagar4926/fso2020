@@ -1,4 +1,7 @@
 const calculateBmi = (weight: number, height: number): string => {
+  if (isNaN(weight) || isNaN(height)) {
+    throw new Error("Weight and height must be numbers");
+  }
   height = height / 100;
   const bmi = weight / (height * height);
   const bmiStr = `BMI: ${bmi.toFixed(2)}`;
@@ -14,4 +17,11 @@ const calculateBmi = (weight: number, height: number): string => {
   return `${bmiStr}.Obese`;
 };
 
-console.log(calculateBmi(66, 182));
+if (require.main === module) {
+  const [_program, _file, argWeight, argHeight, ..._rest] = process.argv;
+
+  const weight: number = argWeight ? Number(argWeight) : 66;
+  const height: number = argHeight ? Number(argHeight) : 182;
+
+  console.log(calculateBmi(weight, height));
+}
