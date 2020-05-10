@@ -1,4 +1,4 @@
-const calculateBmi = (weight: number, height: number): string => {
+export const calculateBmi = (weight: number, height: number): string => {
   if (isNaN(weight) || isNaN(height)) {
     throw new Error("Weight and height must be numbers");
   }
@@ -18,7 +18,7 @@ const calculateBmi = (weight: number, height: number): string => {
 };
 
 if (require.main === module) {
-  const [,, argWeight, argHeight] = process.argv;
+  const [, , argWeight, argHeight] = process.argv;
 
   const weight: number = argWeight ? Number(argWeight) : 66;
   const height: number = argHeight ? Number(argHeight) : 182;
