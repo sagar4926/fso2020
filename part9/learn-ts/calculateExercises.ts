@@ -1,5 +1,5 @@
-type Rating = 1 | 2 | 3;
-interface ExerciseReport {
+export type Rating = 1 | 2 | 3;
+export interface ExerciseReport {
   periodLength: number;
   trainingDays: number;
   target: number;
@@ -9,7 +9,7 @@ interface ExerciseReport {
   ratingDescription: string;
 }
 
-const calculateExercises = (
+export const calculateExercises = (
   daily_routine: number[],
   target: number
 ): ExerciseReport => {
@@ -41,7 +41,7 @@ const calculateExercises = (
 };
 
 if (require.main === module) {
-  const [,, argTarget, ...argDailyRoutine] = process.argv;
+  const [, , argTarget, ...argDailyRoutine] = process.argv;
   const target = argTarget ? Number(argTarget) : 2;
   const dailyRoutine = argDailyRoutine.map((arg) => {
     const n = Number(arg);
