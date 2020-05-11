@@ -9,4 +9,5 @@ export interface Patient {
   occupation: string;
 }
 
+export type PatientCreateRequest = Omit<Patient, "id">;
 export type PatientPublicInfo = Omit<Patient, "ssn">;

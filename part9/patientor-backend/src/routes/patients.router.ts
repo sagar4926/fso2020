@@ -1,10 +1,17 @@
 import express from "express";
-import { getAllPatientsPublicInfo } from "../services/patients.service";
+import patientsService from "../services/patients.service";
+import patientParser from "../parsers/patient.parser";
 
 const patientsRouter = express.Router();
 
 patientsRouter.get("", (_req, res) => {
-  res.send(getAllPatientsPublicInfo());
+  res.send(patientsService.getAllPatientsPublicInfo());
+});
+
+patientsRouter.post("", (req, res) => {
+  res
+    .status(201)
+    .send(patientsService.createPatient(patientParser.parsePatient(req.body)));
 });
 
 export default patientsRouter;
