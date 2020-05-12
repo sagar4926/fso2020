@@ -1,16 +1,16 @@
 import React from "react";
-import { Course } from "./App";
+import { CoursePart } from "./App";
+import Part from "./Part";
 
 type Props = {
-  courses: Course[];
+  courseParts: CoursePart[];
 };
-const Contents: React.FC<Props> = ({ courses }) => {
+
+const Contents: React.FC<Props> = ({ courseParts: courses }) => {
   return (
     <>
       {courses.map((course) => (
-        <p key={course.name}>
-          {course.name} {course.exerciseCount}
-        </p>
+        <Part key={course.name} part={course}></Part>
       ))}
     </>
   );
