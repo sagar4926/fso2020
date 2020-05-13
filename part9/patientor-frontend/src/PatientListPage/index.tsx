@@ -1,14 +1,14 @@
-import React from "react";
 import axios from "axios";
-import { Container, Table, Button } from "semantic-ui-react";
-
-import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
-import AddPatientModal from "../AddPatientModal";
-import { Patient } from "../types";
-import { apiBaseUrl } from "../constants";
-import HealthRatingBar from "../components/HealthRatingBar";
-import { useStateValue, Actions } from "../state";
+import React from "react";
 import { Link } from "react-router-dom";
+import { Button, Container, Table } from "semantic-ui-react";
+import AddPatientModal from "../AddPatientModal";
+import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
+import HealthRatingBar from "../components/HealthRatingBar";
+import { apiBaseUrl } from "../constants";
+import { useStateValue } from "../state";
+import { addPublicPatient } from "../state/actionCreators";
+import { Patient } from "../types";
 
 const PatientListPage: React.FC = () => {
   const [{ patients }, dispatch] = useStateValue();
@@ -29,7 +29,7 @@ const PatientListPage: React.FC = () => {
         `${apiBaseUrl}/patients`,
         values
       );
-      dispatch({ type: Actions.ADD__PUBLIC_PATIENT, payload: newPatient });
+      dispatch(addPublicPatient(newPatient));
       closeModal();
     } catch (e) {
       console.error(e.response.data);

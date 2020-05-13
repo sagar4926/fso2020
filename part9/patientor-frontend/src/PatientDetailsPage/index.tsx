@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Icon } from "semantic-ui-react";
 import { apiBaseUrl } from "../constants";
-import { useStateValue, Actions } from "../state";
+import { useStateValue } from "../state";
+import { addDetailedPatient } from "../state/actionCreators";
 import { DetailedPatient, Gender } from "../types";
 
 const PatientDetailsPage = () => {
@@ -16,10 +17,7 @@ const PatientDetailsPage = () => {
         const { data: patient } = await axios.get<DetailedPatient>(
           `${apiBaseUrl}/patients/${id}`
         );
-        dispatch({
-          type: Actions.ADD__DETAILED_PATIENT,
-          payload: patient,
-        });
+        dispatch(addDetailedPatient(patient));
       }
     };
     loadPatientInfo();
