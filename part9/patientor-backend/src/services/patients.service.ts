@@ -9,6 +9,10 @@ import {
 
 const patients: Patient[] = patientsData as Patient[];
 
+const getPatientById = (id: string): Patient | undefined => {
+  return patients.find((patient) => patient.id === id);
+};
+
 const getAllPatientsPublicInfo = (): PatientPublicInfo[] => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return patients.map(({ ssn, ...rest }) => ({ ...rest }));
@@ -18,6 +22,7 @@ const createPatient = (patient: PatientCreateRequest): PatientPublicInfo => {
   const newPatient = {
     id: uuidv4(),
     ...patient,
+    entries: [],
   };
   patients.push(newPatient);
   const response = {
@@ -30,6 +35,7 @@ const createPatient = (patient: PatientCreateRequest): PatientPublicInfo => {
 const patientService = {
   getAllPatientsPublicInfo,
   createPatient,
+  getPatientById,
 };
 
 export default patientService;

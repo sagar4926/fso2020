@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PatientCreateRequest, Gender } from "../types/patients";
 import { isString } from "./util";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parseString = (field: any, label = "field"): string => {
   if (!field || !isString(field)) {
     throw new Error(`'${label}' should be a string`);
@@ -13,7 +13,7 @@ const isDate = (date: string): boolean => {
   return Boolean(Date.parse(date));
 };
 
-const parseDate = (date: any) => {
+const parseDate = (date: any): string => {
   if (!date || !isString(date) || !isDate(date)) {
     throw new Error("Date invalid");
   }
@@ -31,7 +31,6 @@ const parseGender = (field: any): Gender => {
   return field;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parsePatient = (body: any): PatientCreateRequest => {
   return {
     dateOfBirth: parseDate(body.dateOfBirth),
