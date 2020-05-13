@@ -6,8 +6,8 @@ import { apiBaseUrl } from "./constants";
 import PatientDetailsPage from "./PatientDetailsPage";
 import PatientListPage from "./PatientListPage";
 import { useStateValue } from "./state";
-import { initPatients } from "./state/actionCreators";
-import { Patient } from "./types";
+import { initPatients, initDiagnoses } from "./state/actionCreators";
+import { Patient, Diagnosis } from "./types";
 
 const App: React.FC = () => {
   const [, dispatch] = useStateValue();
@@ -24,7 +24,19 @@ const App: React.FC = () => {
         console.error(e);
       }
     };
+    const fetchDiagnoses = async () => {
+      try {
+        const { data: diagnoses } = await axios.get<Diagnosis[]>(
+          `${apiBaseUrl}/diagnoses`
+        );
+        dispatch(initDiagnoses(diagnoses));
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     fetchPatientList();
+    fetchDiagnoses();
   }, [dispatch]);
 
   return (
