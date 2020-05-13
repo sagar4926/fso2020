@@ -6,6 +6,7 @@ import { apiBaseUrl } from "../constants";
 import { useStateValue } from "../state";
 import { addDetailedPatient } from "../state/actionCreators";
 import { DetailedPatient, Gender } from "../types";
+import EntryDetail from "./EntryDetail";
 
 const PatientDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,6 +46,9 @@ const PatientDetailsPage = () => {
       </p>
       <p>SSN: {patient.ssn} </p>
       <p>Occupation: {patient.occupation} </p>
+      {patient.entries.map((entry) => (
+        <EntryDetail key={entry.id} entry={entry}></EntryDetail>
+      ))}
     </Container>
   );
 };
