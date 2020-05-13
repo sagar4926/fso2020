@@ -1,19 +1,29 @@
 import { State } from "./state";
-import { Patient } from "../types";
+import { Patient, DetailedPatient } from "../types";
+
+export enum Actions {
+  INIT__PATIENTS_PUBLIC_LIST = "INIT__PATIENTS_PUBLIC_LIST",
+  ADD__PUBLIC_PATIENT = "ADD__PUBLIC_PATIENT",
+  ADD__DETAILED_PATIENT = "ADD__DETAILED_PATIENT",
+}
 
 export type Action =
   | {
-      type: "SET_PATIENT_LIST";
+      type: Actions.INIT__PATIENTS_PUBLIC_LIST;
       payload: Patient[];
     }
   | {
-      type: "ADD_PATIENT";
+      type: Actions.ADD__PUBLIC_PATIENT;
       payload: Patient;
+    }
+  | {
+      type: Actions.ADD__DETAILED_PATIENT;
+      payload: DetailedPatient;
     };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "SET_PATIENT_LIST":
+    case Actions.INIT__PATIENTS_PUBLIC_LIST:
       return {
         ...state,
         patients: {
@@ -21,17 +31,26 @@ export const reducer = (state: State, action: Action): State => {
             (memo, patient) => ({ ...memo, [patient.id]: patient }),
             {}
           ),
-          ...state.patients
-        }
+          ...state.patients,
+        },
       };
-    case "ADD_PATIENT":
+    case Actions.ADD__PUBLIC_PATIENT:
       return {
         ...state,
         patients: {
           ...state.patients,
-          [action.payload.id]: action.payload
-        }
+          [action.payload.id]: action.payload,
+        },
       };
+    case Actions.ADD__DETAILED_PATIENT: {
+      return {
+        ...state,
+        patientsWithDetails: {
+          ...state.patientsWithDetails,
+          [action.payload.id]: action.payload,
+        },
+      };
+    }
     default:
       return state;
   }
