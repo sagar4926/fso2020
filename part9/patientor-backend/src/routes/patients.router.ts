@@ -1,6 +1,6 @@
 import express from "express";
-import patientsService from "../services/patients.service";
 import patientParser from "../parsers/patient.parser";
+import patientsService from "../services/patients.service";
 
 const patientsRouter = express.Router();
 
@@ -19,4 +19,22 @@ patientsRouter.post("", (req, res) => {
     .send(patientsService.createPatient(patientParser.parsePatient(req.body)));
 });
 
+patientsRouter.post("/:id/entries", (req, res) => {
+  const id = req.params.id;
+  const patient = patientsService.getPatientById(id);
+  if (!patient) {
+    return res.status(404).end("Patient not found");
+  }
+  try {
+    const requestEntry = patientParser.parseEntry(req.body);
+    if (requestEntry) {
+      const entry = patientsService.createPatientEntry(patient, requestEntry);
+      res.status(200).send(entry);
+    } else {
+      return res.status(422).send("Unable to parse Entry");
+    }
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
 export default patientsRouter;

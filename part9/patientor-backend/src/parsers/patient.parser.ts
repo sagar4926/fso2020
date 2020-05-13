@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PatientCreateRequest, Gender } from "../types/patients";
+import {
+  EntryCreateSchema,
+  EntryType,
+  entryTypeSchema,
+  HealthCheckEntryCreateSchema,
+  HospitalEntryCreateSchema,
+  OccupationalHealthcareEntryCreateSchema,
+} from "../types/entry";
+import { Gender, PatientCreateRequest } from "../types/patients";
 import { isString } from "./util";
 
 const parseString = (field: any, label = "field"): string => {
@@ -41,6 +49,46 @@ const parsePatient = (body: any): PatientCreateRequest => {
   };
 };
 
+const assertNever = (value: never): never => {
+  throw new Error(`Invalid type ${value}`);
+};
+
+const parserParams = {
+  abortEarly: false,
+  stripUnknown: true,
+};
+const parseEntry = (body: any): EntryCreateSchema | undefined => {
+  const type: EntryType = entryTypeSchema.validateSync(body.type);
+  switch (type) {
+    case EntryType.Hospital: {
+      const hospitalEntry = HospitalEntryCreateSchema.validateSync(
+        body,
+        parserParams
+      );
+      return hospitalEntry;
+    }
+    case EntryType.HealthCheck: {
+      const entry = HealthCheckEntryCreateSchema.validateSync(
+        body,
+        parserParams
+      );
+      return entry;
+    }
+    case EntryType.OccupationalHealthcare: {
+      const entry = OccupationalHealthcareEntryCreateSchema.validateSync(
+        body,
+        parserParams
+      );
+      return entry;
+    }
+    default: {
+      assertNever(type);
+      return;
+    }
+  }
+};
+
 export default {
   parsePatient,
+  parseEntry,
 };
