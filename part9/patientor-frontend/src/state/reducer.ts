@@ -1,11 +1,12 @@
 import { State } from "./state";
-import { Patient, DetailedPatient, Diagnosis } from "../types";
+import { Patient, DetailedPatient, Diagnosis, Entry } from "../types";
 
 export enum Actions {
   INIT__PATIENTS_PUBLIC_LIST = "INIT__PATIENTS_PUBLIC_LIST",
   ADD__PUBLIC_PATIENT = "ADD__PUBLIC_PATIENT",
   ADD__DETAILED_PATIENT = "ADD__DETAILED_PATIENT",
   INIT__DIAGNOSES = "INIT__DIAGNOSES",
+  ADD__ENTRY_TO_DETAILED_PATIENT = "ADD__ENTRY_TO_DETAILED_PATIENT",
 }
 
 export type Action =
@@ -24,6 +25,13 @@ export type Action =
   | {
       type: Actions.INIT__DIAGNOSES;
       payload: Diagnosis[];
+    }
+  | {
+      type: Actions.ADD__ENTRY_TO_DETAILED_PATIENT;
+      payload: {
+        patient: DetailedPatient;
+        entry: Entry;
+      };
     };
 
 export const reducer = (state: State, action: Action): State => {
@@ -65,6 +73,18 @@ export const reducer = (state: State, action: Action): State => {
             (acc, diagnosis) => ({ ...acc, [diagnosis.code]: diagnosis }),
             {}
           ),
+        },
+      };
+    }
+    case Actions.ADD__ENTRY_TO_DETAILED_PATIENT: {
+      return {
+        ...state,
+        patientsWithDetails: {
+          ...state.patientsWithDetails,
+          [action.payload.patient.id]: {
+            ...action.payload.patient,
+            entries: [...action.payload.patient.entries, action.payload.entry],
+          },
         },
       };
     }

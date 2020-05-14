@@ -68,3 +68,5 @@ export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
+
+export type EntryCreateSchema = Omit<Entry, "id">;
