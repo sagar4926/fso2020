@@ -12,9 +12,11 @@ import {
 import { DetailedPatient, EntryCreateSchema, Entry } from "../types";
 import AddHealthCheckEntryForm from "./AddPatientEntry/AddHealthCheckEntryForm";
 import PatientDetails from "./PatientDetails";
+import AddHospitalEntryForm from "./AddPatientEntry/AddHospitalEntryForm";
 
 const PatientDetailsPage = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [healthCheckEntryModalOpen, setHealthCheckEntryModalOpen] = useState(false);
+  const [hospitalEntryModalOpen, setHospitalEntryModalOpen] = useState(false);
 
   const { id } = useParams<{ id: string }>();
   const [{ patientsWithDetails }, dispatch] = useStateValue();
@@ -39,38 +41,57 @@ const PatientDetailsPage = () => {
     return null;
   }
 
-  const onModalClose = () => {
-    setModalOpen(false);
+  const onHealthCheckEntryModalClose = () => {
+    setHealthCheckEntryModalOpen(false);
   };
 
-  const onModalOpen = () => {
-    setModalOpen(true);
+  const onHealthCheckEntryModalOpen = () => {
+    setHealthCheckEntryModalOpen(true);
+  };
+
+  const onHospitalEntryModalClose = () => {
+    setHospitalEntryModalOpen(false);
+  };
+
+  const onHospitalEntryModalOpen = () => {
+    setHospitalEntryModalOpen(true);
   };
 
   const createNewEntry = async (data: EntryCreateSchema) => {
-    console.log("Create entry for data : ", data);
     const { data: entry } = await Axios.post<Entry>(
       `${apiBaseUrl}/patients/${patient.id}/entries`,
       data
     );
     dispatch(addEntryToDetailedPatient(patient, entry));
-    onModalClose();
+    onHealthCheckEntryModalClose();
+    onHospitalEntryModalClose();
   };
 
   return (
     <Container>
       <CenteredModal
-        modalOpen={modalOpen}
+        modalOpen={healthCheckEntryModalOpen}
         title="Add New HealthCheck Entry"
-        onClose={onModalClose}
+        onClose={onHealthCheckEntryModalClose}
       >
         <AddHealthCheckEntryForm
-          onCancel={onModalClose}
+          onCancel={onHealthCheckEntryModalClose}
+          onSubmit={createNewEntry}
+        />
+      </CenteredModal>
+      <CenteredModal
+        modalOpen={hospitalEntryModalOpen}
+        title="Add New Hospital Entry"
+        onClose={onHospitalEntryModalClose}
+      >
+        <AddHospitalEntryForm
+          onCancel={onHospitalEntryModalClose}
           onSubmit={createNewEntry}
         />
       </CenteredModal>
       <PatientDetails patient={patient} />
-      <Button onClick={onModalOpen}>Add New HealthCheck Entry</Button>
+      <Button onClick={onHealthCheckEntryModalOpen}>Add New HealthCheck Entry</Button>
+      <Button onClick={onHospitalEntryModalOpen}>Add New Hospital Entry</Button>
     </Container>
   );
 };

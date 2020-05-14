@@ -26,3 +26,12 @@ export const HealthCheckEntryCreateSchema = BaseEntryCreateSchema.shape({
       HealthCheckRating.Healthy,
     ]),
 });
+
+
+export const HospitalEntryCreateSchema = BaseEntryCreateSchema.shape({
+  type: yup.string().required().oneOf([EntryType.Hospital]),
+  discharge: yup.object().shape({
+    date: yup.string().required(),
+    criteria: yup.string().required(),
+  }),
+});
