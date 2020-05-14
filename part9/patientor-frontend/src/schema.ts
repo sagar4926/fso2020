@@ -35,3 +35,14 @@ export const HospitalEntryCreateSchema = BaseEntryCreateSchema.shape({
     criteria: yup.string().required(),
   }),
 });
+
+export const OccupationalHealthcareEntryCreateSchema = BaseEntryCreateSchema.shape(
+  {
+    type: yup.string().required().oneOf([EntryType.OccupationalHealthcare]),
+    employerName: yup.string().required(),
+    sickLeave: yup.object().shape({
+      startDate: yup.string().required(),
+      endDate: yup.string().required(),
+    }),
+  }
+);
