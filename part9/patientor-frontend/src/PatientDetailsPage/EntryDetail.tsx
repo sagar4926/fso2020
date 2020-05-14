@@ -8,6 +8,7 @@ import {
   OccupationalHealthcareEntry,
   HealthCheckRating,
   Diagnosis,
+  EntryType,
 } from "../types";
 
 const assertNever = (entry: never): never => {
@@ -99,13 +100,13 @@ const OccupationalHealthcare: React.FC<{
 
 const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
   switch (entry.type) {
-    case "HealthCheck": {
+    case EntryType.HealthCheck: {
       return <HealthCheck entry={entry} />;
     }
-    case "Hospital": {
+    case EntryType.Hospital: {
       return <Hospital entry={entry} />;
     }
-    case "OccupationalHealthcare": {
+    case EntryType.OccupationalHealthcare: {
       return <OccupationalHealthcare entry={entry} />;
     }
     default: {

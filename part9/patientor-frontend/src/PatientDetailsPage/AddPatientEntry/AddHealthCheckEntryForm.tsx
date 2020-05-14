@@ -7,7 +7,8 @@ import {
   TextField,
 } from "../../AddPatientModal/FormField";
 import { useStateValue } from "../../state";
-import { HealthCheckEntry } from "../../types";
+import { HealthCheckEntry, EntryType } from "../../types";
+import { HealthCheckEntryCreateSchema } from "../../schema";
 
 export type HealthCheckEntryFormValues = Omit<HealthCheckEntry, "id">;
 
@@ -25,7 +26,7 @@ export const AddHealthCheckEntryForm: React.FC<Props> = ({
   return (
     <Formik
       initialValues={{
-        type: "HealthCheck",
+        type: EntryType.HealthCheck,
         description: "",
         date: "",
         specialist: "",
@@ -33,23 +34,7 @@ export const AddHealthCheckEntryForm: React.FC<Props> = ({
         diagnosisCodes: [],
       }}
       onSubmit={onSubmit}
-      validate={(values) => {
-        const requiredError = "Field is required";
-        const errors: { [field: string]: string } = {};
-        if (!values.description) {
-          errors.description = requiredError;
-        }
-        if (!values.date) {
-          errors.date = requiredError;
-        }
-        if (!values.specialist) {
-          errors.specialist = requiredError;
-        }
-        if (!values.healthCheckRating) {
-          errors.healthCheckRating = requiredError;
-        }
-        return errors;
-      }}
+      validationSchema={HealthCheckEntryCreateSchema}
     >
       {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
         return (
